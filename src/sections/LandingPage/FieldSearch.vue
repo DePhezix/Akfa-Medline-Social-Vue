@@ -1,0 +1,480 @@
+<script setup lang="ts">
+import JobApplicationCard from "../../components/Landing/JobApplicationCard.vue";
+import Notice from "/svgs/notice.svg";
+import Pagination from "../../components/Global/Pagination.vue";
+import { useRoute } from "vue-router";
+import { ref, computed, watch, onMounted } from "vue";
+import { fetchVacanciesByDivision } from "../../ApiCalls/fetchVacanciesByDivision";
+
+type languagesType = "en" | "ru";
+
+interface staticFieldsValuesType {
+  invitation: string;
+  benefits: string[];
+  values: { header: string; details: string };
+  requirements: { header: string; details: string };
+  workingConditions: { header: string; details: string };
+  explanation?: string;
+  note?: string;
+}
+
+interface vacanciesType {
+  title: string;
+  numberOfApplicants: number;
+  jobID: number;
+}
+
+const staticFields: Record<
+  string,
+  Record<languagesType, staticFieldsValuesType>
+> = {
+  "Врачи / Специалисты (Physicians & Specialists)": {
+    ru: {
+      invitation:
+        "Мы приглашаем молодых и целеустремлённых врачей присоединиться к команде новой современной клиники.",
+      benefits: [
+        "Если вы только завершаете ординатуру или недавно начали свою медицинскую практику — мы рады видеть вас в числе кандидатов. Наша клиника предлагает уникальную возможность профессионального роста под руководством опытных наставников и клинических кураторов.",
+      ],
+      values: {
+        header: "Что мы ценим",
+        details:
+          "Желание учиться и расти как врач <br /> Готовность работать в команде и следовать клиническим стандартам",
+      },
+      requirements: {
+        header: "Обязательные требования",
+        details:
+          "Высшее медицинское образование <br />" +
+          "Ординатура или магистратура по соответствующей специальности* <br />" +
+          "При стаже более 10 лет — наличие квалификационной категории. <br />" +
+          "Действующая лицензия и опыт клинической работы <br />" +
+          "Стремление к развитию и внедрению клинических стандартов",
+      },
+      workingConditions: {
+        header: "Условия работы:",
+        details:
+          "<span class='highlight'>График:</span> с 08:00 до 17:00, 6/7 <br />" +
+          "<span class='highlight'>Заработная плата:</span> от 180 000 000 сум/год <br />" +
+          "<span class='highlight'>Социальный пакет:</span> бесплатный обед в корпоративной столовой <br />" +
+          "<span class='highlight'>Профессиональное развитие:</span> ежегодное обучение и тренинги за счёт клиники",
+      },
+      explanation:
+        "Высшее медицинское образование: бакалавриат по специальности Врач общей практики, послевузовское профессиональное образование может быть преимуществом.",
+    },
+    en: {
+      invitation:
+        "We invite young and ambitious doctors to join the team of our new, modern clinic.",
+      benefits: [
+        "Our clinic offers a unique opportunity for professional growth under the guidance of experienced mentors and clinical supervisors.You will be involved in both outpatient and inpatient care, work in a multidisciplinary team, and develop your clinical skills in real-world modern medical settings.",
+      ],
+      values: {
+        header: "What We Value",
+        details:
+          "A strong desire to learn and grow as a physician <br /> Readiness to work in a team and follow clinical standards",
+      },
+      requirements: {
+        header: "Mandatory requirements:",
+        details:
+          "Higher medical education <br />" +
+          "Residency or master's degree in the relevant specialty* <br />" +
+          "For experience over 10 years — qualification category required <br />" +
+          "Valid license and clinical work experience <br />" +
+          "Commitment to development and implementation of clinical standards",
+      },
+      workingConditions: {
+        header: "Working Conditions:",
+        details:
+          "<span class='highlight'>Schedule:</span> 08:00 to 17:00, 6 days/week (Monday–Saturday) <br />" +
+          "<span class='highlight'>Salary:</span> from 180,000,000 UZS per year <br />" +
+          "<span class='highlight'>Social package:</span> free lunch at the corporate cafeteria <br />" +
+          "<span class='highlight'>Professional development:</span> Annual training and courses at clinic's expense <br />" +
+          "<span class='highlight'>Additional:</span> Mentorship, modern infrastructure and staff development support",
+      },
+      explanation:
+        "Higher medical education: a bachelor’s degree in General Practice (Doctor), with postgraduate professional education considered an advantage.",
+    },
+  },
+
+  "Медицинский и сестринский персонал (Nursing & Clinical Staff)": {
+    ru: {
+      invitation:
+        "Мы приглашаем выпускников медицинских колледжей и начинающих специалистов, которые хотят построить карьеру в современной клинике.",
+      benefits: [
+        "Наша команда обеспечит вам поддержку, обучение на рабочем месте и наставничество со стороны опытных сотрудников. Мы ценим ответственность, заботу о пациенте и стремление к постоянному развитию.",
+        "В структуру входят медицинские сёстры отделений, ассистенты и другие клинические специалисты. Работа предполагает участие в ежедневном уходе за пациентами, клинических процедурах и командной коммуникации.",
+      ],
+      values: {
+        header: "Что мы ценим",
+        details:
+          "Стремление стать профессионалом в своём деле <br />" +
+          "Аккуратность, внимательность и уважение к пациенту <br />" +
+          "Готовность обучаться у наставников и развиваться вместе с клиникой",
+      },
+      requirements: {
+        header: "Обязательные требования",
+        details:
+          "Среднее специальное медицинское образование <br />" +
+          "Сертификат о повышении квалификации (сроком давности не менее 5 лет) <br />" +
+          "Опыт приветствуется, но не обязателен",
+      },
+      workingConditions: {
+        header: "Условия работы:",
+        details:
+          "<span class='highlight'>График:</span> с 08:00 до 17:00, 6/7 <br />" +
+          "<span class='highlight'>Заработная плата:</span> от 53 000 000 сум/год <br />" +
+          "<span class='highlight'>Социальный пакет:</span> бесплатный обед в корпоративной столовой <br />" +
+          "<span class='highlight'>Профессиональное развитие:</span> ежегодное обучение и тренинги за счёт клиники <br />" +
+          "<span class='highlight'>Дополнительно:</span> наставничество, современная инфраструктура и поддержка развития персонала",
+      },
+    },
+    en: {
+      invitation:
+        "We invite graduates of medical colleges and early-career specialists who want to build a career in a modern clinic.",
+      benefits: [
+        "Our team will provide you with support, on-the-job training, and mentorship from experienced staff. We value responsibility, patient care, and commitment to continuous development.",
+        "The structure includes department nurses, assistants, and other clinical specialists. The work involves daily patient care, clinical procedures, and teamwork.",
+      ],
+      values: {
+        header: "What We Value",
+        details:
+          "Striving to become a professional in your field <br />" +
+          "Accuracy, attention to detail, and respect for patients <br />" +
+          "Willingness to learn from mentors and grow with the clinic",
+      },
+      requirements: {
+        header: "Requirements",
+        details:
+          "Secondary specialized medical education <br />" +
+          "Certificate of professional development (not older than 5 years) <br />" +
+          "Experience is welcome but not required",
+      },
+      workingConditions: {
+        header: "Working Conditions:",
+        details:
+          "<span class='highlight'>Schedule:</span> 08:00 to 17:00, 6 days/week (Monday-Saturday)<br />" +
+          "<span class='highlight'>Salary:</span> From 53,000,000 UZS/year <br />" +
+          "<span class='highlight'>Social package:</span> Free lunch in corporate cafeteria <br />" +
+          "<span class='highlight'>Professional development:</span> Annual training and courses at the clinic's expense <br />" +
+          "<span class='highlight'>Additional:</span> Mentorship, modern infrastructure, and staff development support",
+      },
+    },
+  },
+
+  "Менеджмент и управленческий персонал (Leadership & Management)": {
+    ru: {
+      invitation:
+        "Мы строим систему управления клиникой с нуля — и открыты к кандидатам, готовым учиться, расти и брать на себя ответственность. .",
+      benefits: [
+        "Если вы — начинающий управленец, стремящийся развиваться в области медицинского менеджмента — у нас вы получите поддержку опытных руководителей, доступ к системному обучению и возможность участвовать в создании процессов с «чистого листа»",
+        "Открыты роли заведующих отделений, старших медсестер и других управленческих позиций.",
+      ],
+      values: {
+        header: "Что мы ценим",
+        details:
+          "Инициативу, системное мышление и организованность <br />" +
+          "Готовность брать ответственность и обучаться в процессе <br />" +
+          "Уважение к командной работе и клиентоориентированность",
+      },
+      requirements: {
+        header: "Обязательные требования",
+        details:
+          "Высшее медицинское образование по соответствующей специальности <br />" +
+          "Послевузовское профессиональное образование: ординатура или магистратура <br />" +
+          "При стаже более 10 лет — наличие квалификационной категории обязательно <br />" +
+          "Опыт работы не обязателен, но желание развиваться — обязательно",
+      },
+      workingConditions: {
+        header: "Условия работы:",
+        details:
+          "<span class='highlight'>График:</span> с 08:00 до 17:00, 6/7 <br />" +
+          "<span class='highlight'>Заработная плата:</span> от 351 000 000 сум/год <br />" +
+          "<span class='highlight'>Социальный пакет:</span> бесплатный обед в корпоративной столовой <br />" +
+          "<span class='highlight'>Профессиональное развитие:</span> ежегодное обучение и тренинги за счёт клиники <br />" +
+          "<span class='highlight'>Дополнительно:</span> наставничество, современная инфраструктура и поддержка развития персонала",
+      },
+    },
+    en: {
+      invitation:
+        "We are building a clinic management system from scratch — and are open to candidates ready to learn, grow, and take responsibility.",
+      benefits: [
+        "If you are a beginning manager striving to develop in the field of medical management — with us you will receive support from experienced leaders, access to systematic training, and the opportunity to participate in creating processes from a clean slate.",
+        "Available roles include department heads, senior nurses, and other management positions.",
+      ],
+      values: {
+        header: "What We Value",
+        details:
+          "Initiative, systematic thinking, and organization <br />" +
+          "Readiness to take responsibility and learn in the process <br />" +
+          "Respect for teamwork and client orientation",
+      },
+      requirements: {
+        header: "Requirements",
+        details:
+          "Higher medical education in the relevant specialty <br />" +
+          "Postgraduate professional education: residency or master's degree <br />" +
+          "For candidates with over 10 years of experience — qualification category is mandatory <br />" +
+          "Previous work experience is not mandatory, but a strong desire to grow and develop is essential",
+      },
+      workingConditions: {
+        header: "Working Conditions:",
+        details:
+          "<span class='highlight'>Schedule:</span> 08:00 to 17:00, 6 days/week (Monday–Saturday) <br />" +
+          "<span class='highlight'>Salary:</span> From 351,000,000 UZS/year <br />" +
+          "<span class='highlight'>Social package:</span> Free lunch in corporate cafeteria <br />" +
+          "<span class='highlight'>Professional development:</span> Annual training and courses at the clinic's expense <br />" +
+          "<span class='highlight'>Additional:</span> Mentorship, modern infrastructure, and staff development support",
+      },
+    },
+  },
+
+  "Лабораторные службы (Diagnostics)": {
+    ru: {
+      invitation:
+        "Если вы выпускник или начинающий специалист, мечтающий работать в современной лаборатории — мы ждём вас! ",
+      benefits: [
+        "Наша лаборатория будет оснащена передовым оборудованием и работать по международным стандартам. Мы предлагаем обучение, поддержку наставников и возможность стать частью команды с нуля.",
+        "Приглашаем лаборантов, специалистов по биомедицинским исследованиям, ПЦР- и ИФА-специалистов, а также младших техников.",
+      ],
+      values: {
+        header: "Что мы ценим",
+        details:
+          "Внимание к деталям и ответственность <br />" +
+          "Интерес к лабораторной диагностике и готовность обучаться <br />" +
+          "Чистоплотность, соблюдение стандартов качества и дисциплины",
+      },
+      requirements: {
+        header: "Обязательные требования",
+        details:
+          "Среднее специальное или высшее образование (медицинское, биологическое, химическое) <br />" +
+          "Готовность пройти обучение на рабочем месте <br />" +
+          "Опыт не обязателен",
+      },
+      workingConditions: {
+        header: "Условия работы:",
+        details:
+          "<span class='highlight'>График:</span> с 08:00 до 17:00, 6/7 <br />" +
+          "<span class='highlight'>Заработная плата:</span> от 62 000 000 сум/год <br />" +
+          "<span class='highlight'>Социальный пакет:</span> бесплатный обед в корпоративной столовой <br />" +
+          "<span class='highlight'>Профессиональное развитие:</span> ежегодное обучение и тренинги за счёт клиники <br />" +
+          "<span class='highlight'>Дополнительно:</span> наставничество, современная инфраструктура и поддержка развития персонала",
+      },
+    },
+    en: {
+      invitation:
+        "If you are a graduate or beginning specialist dreaming of working in a modern laboratory — we are waiting for you!",
+      benefits: [
+        "Our laboratory will be equipped with advanced equipment and operate according to international standards. We offer training, mentor support, and the opportunity to become part of a team from the ground up.",
+        "We invite laboratory technicians, biomedical research specialists, PCR and ELISA specialists, as well as junior technicians.",
+      ],
+      values: {
+        header: "What We Value",
+        details:
+          "Attention to details and responsibility <br />" +
+          "Interest in laboratory diagnostics and willingness to learn <br />" +
+          "Cleanliness, adherence to quality standards, and discipline",
+      },
+      requirements: {
+        header: "Requirements",
+        details:
+          "Secondary specialized or higher education (medical, biological, or chemical) <br />" +
+          "Willingness to undergo on-the-job training <br />" +
+          "Work experience is not required",
+      },
+      workingConditions: {
+        header: "Working Conditions:",
+        details:
+          "<span class='highlight'>Schedule:</span> 08:00 to 17:00, 6 days/week (Monday–Saturday) <br />" +
+          "<span class='highlight'>Salary:</span> From 62,000,000 UZS/year <br />" +
+          "<span class='highlight'>Social package:</span> Free lunch in corporate cafeteria <br />" +
+          "<span class='highlight'>Professional development:</span> Annual training and courses at the clinic's expense <br />" +
+          "<span class='highlight'>Additional:</span> Mentorship, modern infrastructure, and staff development support",
+      },
+    },
+  },
+};
+
+const fieldKey: Record<string, number> = {
+  "Врачи / Специалисты (Physicians & Specialists)": 5121,
+  "Медицинский и сестринский персонал (Nursing & Clinical Staff)": 5119,
+  "Менеджмент и управленческий персонал (Leadership & Management)": 5120,
+  "Лабораторные службы (Diagnostics)": 5122,
+};
+
+const selectedKey = ref<string>(
+  "Врачи / Специалисты (Physicians & Specialists)"
+);
+
+const route = useRoute();
+
+const currentLan = ref<languagesType>(
+  (route.params.language as languagesType) || "ru"
+);
+var jobs = ref<vacanciesType[]>([]);
+
+onMounted(async () => {
+  try {
+    jobs.value = await fetchVacanciesByDivision(
+      fieldKey[selectedKey.value] ?? 0
+    );
+  } catch {
+    console.log("Error fetching vacancies by division");
+  }
+});
+
+watch(selectedKey, async () => {
+  if (fieldKey[selectedKey.value]) {
+    jobs.value = await fetchVacanciesByDivision(
+      fieldKey[selectedKey.value] ?? 0
+    );
+  }
+});
+
+const fieldName = computed(() =>
+  currentLan.value === "ru"
+    ? selectedKey.value?.split("(")[0]?.trim()
+    : selectedKey.value.match(/\((.*?)\)/)?.[1]?.trim() || selectedKey.value
+);
+
+const selected = computed(
+  () => staticFields[selectedKey.value]?.[currentLan.value]
+);
+const blockHeader = computed(() =>
+  currentLan.value === "ru"
+    ? `Вакансии по направлению ${fieldName.value}`
+    : `Job Vacancies for ${fieldName.value}`
+);
+
+watch(
+  () => route.params.language,
+  (newLanguage) => {
+    if (typeof newLanguage === "string") {
+      currentLan.value = newLanguage as languagesType;
+    } else {
+      currentLan.value = "ru";
+    }
+  }
+);
+
+const setSelectedKey = (key: string) => {
+  selectedKey.value = key;
+};
+</script>
+
+<template>
+  <section
+    class="max-2xl:w-full flex flex-col w-[1280px] gap-[32px] text-black mb-[80px]"
+    id="vacancies"
+  >
+    <div class="flex flex-col gap-[32px]" ref="{header}">
+      <header
+        class="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] font-[500] text-[48px] leading-[67.2px] tracking-[-1%] align-middle max-md:text-[36px] max-md:font-[400]"
+      >
+        {{
+          currentLan === "ru" ? "Поиск по направлениям" : "Search by Faculty"
+        }}
+      </header>
+
+      <nav
+        class="flex w-full pb-[36px] gap-[9px] border-b border-solid border-[#e3e5e5] overflow-x-auto [&::-webkit-scrollbar]:hidden"
+        aria-label="Job categories"
+      >
+        <button
+          v-for="[key, field] in Object.entries(staticFields)"
+          :key="key"
+          type="button"
+          class="max-2xl:min-w-[270px] rounded-[5px] p-[22px] pt-[11px] pb-[12.19px] cursor-pointer border border-solid border-[#e3e5e5] transition duration-500 ease-linear"
+          :class="{ 'bg-red text-white border-0': key === selectedKey }"
+          @click="setSelectedKey(key)"
+        >
+          <span
+            class="font-[600] text-[16px] leading-[27.2px] align-middle text-center"
+          >
+            {{
+              currentLan === "ru"
+                ? key?.split("(")[0]?.trim()
+                : key.match(/\((.*?)\)/)?.[1]?.trim() || key
+            }}
+          </span>
+        </button>
+      </nav>
+    </div>
+    <div class="flex flex-col gap-[32px]" ref="{textContainer}">
+      <article
+        class="max-2xl:w-full flex flex-col gap-[15px] w-[1250.53px] mb-[16px]"
+        v-if="selected"
+      >
+        <header
+          class="max-2xl:text-[32px] max-2xl:leading-[40px] w-full font-[500] text-[36px] leading-[50.4px] tracking-[-1px] align-middle max-md:text-[28px] max-md:font-[600]"
+        >
+          {{ blockHeader }}
+        </header>
+
+        <div class="flex flex-col gap-[16px] text-[14px] leading-[23.8px]">
+          <p class="font-[600] align-middle" v-if="selected.invitation">
+            {{ selected.invitation }}
+          </p>
+
+          <div v-if="selected.benefits?.length > 0">
+            <span v-for="(benefit, index) in selected.benefits" :key="index">{{
+              benefit
+            }}</span>
+          </div>
+
+          <section class="flex flex-col gap-[12px]" v-if="selected.values">
+            <h3 class="font-[600]">{{ selected.values.header }}</h3>
+            <p v-html="selected.values.details" />
+          </section>
+
+          <section
+            class="flex flex-col gap-[12px]"
+            v-if="selected.requirements"
+          >
+            <h3 class="font-[600]">{{ selected.requirements.header }}</h3>
+            <p v-html="selected.requirements.details" />
+          </section>
+
+          <section
+            class="flex flex-col gap-[12px]"
+            v-if="selected.workingConditions"
+          >
+            <h3 class="font-[600]">
+              {{ selected.workingConditions.header }}
+            </h3>
+            <p v-html="selected.workingConditions.details" />
+          </section>
+
+          <p class="font-[700]" v-if="selected.explanation">
+            * {{ selected.explanation }}
+          </p>
+        </div>
+      </article>
+
+      <section aria-label="Job listings" v-if="jobs?.length > 0">
+        <Pagination
+          :itemsPerPage="4"
+          class-name="max-2xl:w-full flex w-[1260px] flex-wrap gap-[32px] justify-between"
+          :paginationFor="fieldName ?? ''"
+        >
+          <JobApplicationCard
+            v-for="(job, index) in jobs"
+            :key="index"
+            :title="job.title"
+            :numberOfApplicants="job.numberOfApplicants"
+            :jobID="job.jobID"
+            :language="currentLan"
+          />
+        </Pagination>
+      </section>
+
+      <aside
+        class="rounded-[12px] p-[20px] flex gap-[12px] bg-[#fff3e6]"
+        role="note"
+        v-if="selected?.note"
+      >
+        <img :src="Notice" alt="Note icon" />
+        <p class="w-[1204px] text-[16px] leading-[150%] text-[#dd790c]">
+          {{ selected.note }}
+        </p>
+      </aside>
+    </div>
+  </section>
+</template>
