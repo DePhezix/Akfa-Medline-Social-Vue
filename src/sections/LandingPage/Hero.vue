@@ -148,7 +148,7 @@ const handleButtonClick = () => {
             class="flex gap-[16.5px] max-md:grid max-md:grid-cols-2 max-md:gap-[1rem]"
           >
             <div
-              v-for="(item, index) in vacancyStats"
+              v-for="(item) in vacancyStats"
               key="{index}"
               class="flex flex-col pr-[24px] gap-[8px] border-r border-solid border-[rgba(255, 255, 255, 0.4)] h-[62px] max-md:h-min"
             >

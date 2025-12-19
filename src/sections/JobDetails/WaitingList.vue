@@ -18,7 +18,7 @@ var currentLan = ref<string | string[]>("ru");
 
 watch(
   () => route.params.language,
-  (newLanguage, oldLanguage) => {
+  (newLanguage) => {
     currentLan.value = newLanguage || "ru";
   }
 );

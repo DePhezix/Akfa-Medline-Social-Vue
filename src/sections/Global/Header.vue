@@ -35,7 +35,7 @@ const handleLanguage = (e: Event) => {
 
 watch(
   () => route.params.language,
-  (newLanguage, oldLanguage) => {
+  (newLanguage) => {
     currentLan.value = newLanguage || "ru";
     basePath =
       currentLan.value === "ru"

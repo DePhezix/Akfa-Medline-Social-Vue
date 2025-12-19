@@ -7,7 +7,7 @@ import ApplicationRequirements from "../sections/LandingPage/ApplicationRequirem
 import HiringDepartments from "../sections/LandingPage/HiringDepartments.vue";
 import FieldSearch from "../sections/LandingPage/FieldSearch.vue";
 import Contacts from "../sections/LandingPage/Contacts.vue";
-import Loading from "../sections/Global/Loading.vue";
+// import Loading from "../sections/Global/Loading.vue";
 </script>
 
 <template>

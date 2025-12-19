@@ -158,7 +158,7 @@ const handleTelChange = (val: string) => {
         mask="+{998} (00) 000-00-00"
         type="tel"
         value="{value}"
-        onAccept="{handleTelChange}"
+        :onAccept="handleTelChange"
         placeholder="{placeholder}"
         class="w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0"
         :class="{ 'border-red2 outline-0': errorMessage }"

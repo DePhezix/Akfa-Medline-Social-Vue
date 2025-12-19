@@ -378,7 +378,7 @@ const setSelectedKey = (key: string) => {
         aria-label="Job categories"
       >
         <button
-          v-for="[key, field] in Object.entries(staticFields)"
+          v-for="[key] in Object.entries(staticFields)"
           :key="key"
           type="button"
           class="max-2xl:min-w-[270px] rounded-[5px] p-[22px] pt-[11px] pb-[12.19px] cursor-pointer border border-solid border-[#e3e5e5] transition duration-500 ease-linear"
