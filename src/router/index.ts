@@ -9,7 +9,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/Akfa-Medline-Social",
+      path: "/Akfa-Medline-Social-Vue",
       component: Layout,
       children: [
         {
