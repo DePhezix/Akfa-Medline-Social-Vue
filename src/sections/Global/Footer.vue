@@ -35,7 +35,7 @@ const route = useRoute();
 const currentLan = ref<string | string[]>(route.params.language || "ru");
 
   watch(() => route.params.language, (newLanguage) => {
-    currentLan.value = route.params.language || "ru"
+    currentLan.value = newLanguage || "ru"
   })
 
 const address = computed(() =>
