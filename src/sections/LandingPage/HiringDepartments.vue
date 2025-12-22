@@ -95,9 +95,7 @@ const setShowAll = (state: boolean) => {
 watch(
   () => route.params.language,
   (newLanguage) => {
-    if (typeof newLanguage === "string") {
-      currentLan.value = newLanguage as languagesType || "ru";
-    }
+    currentLan.value = newLanguage as languagesType || "ru";
   }
 );
 </script>

@@ -75,18 +75,14 @@ const ContactsList: Record<languagesType, contactsListType[]> = {
 
 const route = useRoute();
 const currentLan = ref<languagesType>(
-  route.params.language as languagesType | "ru"
+  route.params.language as languagesType || "ru"
 );
 const selectedContacts = computed(() => ContactsList[currentLan.value]);
 
 watch(
   () => route.params.language,
   (newLanguage) => {
-    if (typeof newLanguage === "string" && newLanguage in ContactsList) {
-      currentLan.value = newLanguage as languagesType;
-    } else {
-      currentLan.value = "ru";
-    }
+    currentLan.value = newLanguage as languagesType || "ru"
   }
 );
 </script>

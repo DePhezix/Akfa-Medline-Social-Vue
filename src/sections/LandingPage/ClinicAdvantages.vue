@@ -139,18 +139,14 @@ const text: Record<languagesType, textType> = {
 
 const route = useRoute()
 
-const currentLan = ref<languagesType>(route.params.language as languagesType | "ru");
+const currentLan = ref<languagesType>(route.params.language as languagesType || "ru");
 
 const currentText = computed(() => text[currentLan.value]);
 
 watch(
   () => route.params.language,
   (newLanguage) => {
-    if (typeof newLanguage === "string" && newLanguage in text) {
-      currentLan.value = newLanguage as languagesType;
-    } else {
-      currentLan.value = "ru";
-    }
+    currentLan.value = newLanguage as languagesType || "ru"
   }
 );
 </script>

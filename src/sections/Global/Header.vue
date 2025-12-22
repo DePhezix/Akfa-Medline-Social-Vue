@@ -14,7 +14,7 @@ const router = useRouter();
 const route = useRoute();
 var currentLan = ref<string | string[]>(route.params.language || "ru");
 
-var basePath = `/Akfa-Medline-Social/`;
+var basePath = `/Akfa-Medline-Social-Vue/`;
 
 const isHamburgerOpen: Ref<boolean> = ref(false);
 
@@ -26,9 +26,9 @@ const handleLanguage = (e: Event) => {
   const target = e.target as HTMLSelectElement;
   const lan = target.value;
   if (lan == "ru") {
-    router.push('/Akfa-Medline-Social/');
+    router.push('/Akfa-Medline-Social-Vue/');
   } else {
-    router.push("/Akfa-Medline-Social/" + lan);
+    router.push("/Akfa-Medline-Social-Vue/" + lan);
   }
   toggleMenu();
 };
@@ -39,8 +39,8 @@ watch(
     currentLan.value = newLanguage || "ru";
     basePath =
       currentLan.value === "ru"
-        ? `/Akfa-Medline-Social/`
-        : `/Akfa-Medline-Social/${currentLan.value}`;
+        ? `/Akfa-Medline-Social-Vue/`
+        : `/Akfa-Medline-Social-Vue/${currentLan.value}`;
   }
 );
 </script>
@@ -52,8 +52,8 @@ watch(
     <RouterLink
       :to="
         currentLan === 'ru'
-          ? `/Akfa-Medline-Social/`
-          : `/Akfa-Medline-Social/${currentLan}`
+          ? `/Akfa-Medline-Social-Vue/`
+          : `/Akfa-Medline-Social-Vue/${currentLan}`
       "
       class="h-[50.15px] w-[100px] max-sm:h-[32px]"
     >
@@ -67,7 +67,7 @@ watch(
     <div class="flex gap-[32px] items-center max-md:hidden">
       <RouterLink
         smooth
-        :to="`/Akfa-Medline-Social/${
+        :to="`/Akfa-Medline-Social-Vue/${
           currentLan !== 'ru' ? currentLan : ''
         }#contacts`"
         class="appearance-none h-full font-[400] text-[16px] cursor-pointer transition duration-300 ease-linear hover:text-red"

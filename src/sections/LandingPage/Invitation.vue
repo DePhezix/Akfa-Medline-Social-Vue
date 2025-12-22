@@ -11,7 +11,7 @@ interface textType {
 }
 
 const route = useRoute();
-const currentLan = ref<languagesType>(route.params.language as languagesType | "ru");
+const currentLan = ref<languagesType>(route.params.language as languagesType || "ru");
 
 const text: Record<languagesType, textType> = {
   ru: {

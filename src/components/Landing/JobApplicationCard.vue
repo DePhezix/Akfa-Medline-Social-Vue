@@ -12,8 +12,8 @@ const props = defineProps<{
 
 const linkPath =
   props.language === "ru"
-    ? `/Akfa-Medline-Social/jobs/${props.jobID}`
-    : `/Akfa-Medline-Social/${props.language}/jobs/${props.jobID}`;
+    ? `/Akfa-Medline-Social-Vue/jobs/${props.jobID}`
+    : `/Akfa-Medline-Social-Vue/${props.language}/jobs/${props.jobID}`;
 </script>
 
 <template>

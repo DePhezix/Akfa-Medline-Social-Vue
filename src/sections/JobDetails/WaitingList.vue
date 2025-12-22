@@ -30,8 +30,8 @@ watch(
   const handleReturnButtonClick = () => {
    router.push({
     path: currentLan.value === 'ru'
-      ? '/Akfa-Medline-Social'
-      : `/${currentLan.value}/Akfa-Medline-Social`,
+      ? '/Akfa-Medline-Social-Vue'
+      : `/${currentLan.value}/Akfa-Medline-Social-Vue`,
     hash: '#vacancies',
   })
   };

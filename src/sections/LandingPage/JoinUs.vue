@@ -91,16 +91,12 @@ interface contentType {
 
   
   const route = useRoute();
-  const currentLan = ref<languagesType>(route.params.language as languagesType | "ru");
+  const currentLan = ref<languagesType>(route.params.language as languagesType || "ru");
 
 watch(
   () => route.params.language,
   (newLanguage) => {
-    if (typeof newLanguage === "string") {
-      currentLan.value = newLanguage as languagesType;
-    } else {
-      currentLan.value = "ru";
-    }
+    currentLan.value = newLanguage as languagesType || "ru"
   }
 );
 
@@ -120,8 +116,8 @@ borderRadius: "8px"
             smooth
             :to="
               currentLan === 'ru'
-                ? '/Akfa-Medline-Social/#vacancies'
-                : `/Akfa-Medline-Social/${currentLan}#vacancies`
+                ? '/Akfa-Medline-Social-Vue/#vacancies'
+                : `/Akfa-Medline-Social-Vue/${currentLan}#vacancies`
             "
             class="max-md:w-full w-max rounded-[7px] no-underline"
           >

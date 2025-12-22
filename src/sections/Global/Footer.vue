@@ -5,17 +5,13 @@ import LinkedinLogo from "/svgs/footer_linkedin-logo.svg";
 import FooterLogo from "/svgs/footer_logo.svg";
 
 import { useRoute } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 type SocialLink = {
   icon: string;
   alt: string;
   url: string;
 };
-
-const route = useRoute();
-const language = route.params.language;
-const currentLan = ref<string | string[]>(language || "ru");
 
 const socialLinks: SocialLink[] = [
   {
@@ -35,6 +31,13 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
+const route = useRoute();
+const currentLan = ref<string | string[]>(route.params.language || "ru");
+
+  watch(() => route.params.language, (newLanguage) => {
+    currentLan.value = route.params.language || "ru"
+  })
+
 const address = computed(() =>
   currentLan.value === "ru"
     ? "Ташкент, Мирабадский район, махаллинский сход граждан Тонг Юлдузи"
@@ -53,7 +56,7 @@ const address = computed(() =>
         class="w-full flex justify-between text-white max-2xl:w-full max-md:flex-col max-md:gap-[64px]"
       >
         <div class="flex flex-col w-[375.83px] gap-[32px] max-md:w-full">
-          <div class="flex flex-col gap-[23.1px] ">
+          <div class="flex flex-col gap-[23.1px]">
             <img
               :src="FooterLogo"
               class="w-[100px] h-[50.1px]"
@@ -61,7 +64,7 @@ const address = computed(() =>
             />
             <p class="h-[55px] font-[400] text-[16px] leading-[27.2px]">
               Phone: <a href="tel:+998774033003">+998-77-403-30-03</a> <br />
-              Email:{" "}
+              Email:
               <a
                 href="mailto:hr.pm@akfamedline.uz"
                 class="text-white no-underline"
@@ -70,11 +73,9 @@ const address = computed(() =>
             </p>
           </div>
 
-          <div
-            class="flex gap-[16px]"
-            v-for="(social, index) in socialLinks"
-          >
+          <div class="flex gap-[16px]">
             <a
+              v-for="(social, index) in socialLinks"
               :key="index"
               :href="social.url"
               target="_blank"

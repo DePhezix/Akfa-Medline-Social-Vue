@@ -346,11 +346,7 @@ const blockHeader = computed(() =>
 watch(
   () => route.params.language,
   (newLanguage) => {
-    if (typeof newLanguage === "string") {
-      currentLan.value = newLanguage as languagesType;
-    } else {
-      currentLan.value = "ru";
-    }
+    currentLan.value = newLanguage as languagesType || "ru"
   }
 );
 

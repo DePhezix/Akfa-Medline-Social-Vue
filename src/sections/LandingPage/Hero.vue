@@ -62,11 +62,7 @@ onMounted(async () => {
 watch(
   () => route.params.language,
   (newLanguage) => {
-    if (typeof newLanguage === "string") {
-      currentLan.value = newLanguage as languageType;
-    } else {
-      currentLan.value = "ru";
-    }
+    currentLan.value = newLanguage as languageType || "ru"
   }
 );
 
@@ -116,8 +112,8 @@ const handleButtonClick = () => {
               smooth
               :to="
                 currentLan === 'ru'
-                  ? '/Akfa-Medline-Social/#vacancies'
-                  : `/Akfa-Medline-Social/${currentLan}#vacancies`
+                  ? '/Akfa-Medline-Social-Vue/#vacancies'
+                  : `/Akfa-Medline-Social-Vue/${currentLan}#vacancies`
               "
               class="no-underline"
             >

@@ -71,9 +71,9 @@ const clearSearch = () => {
 
 const getVacancyLink = (id: number) => {
   if (currentLan.value && currentLan.value !== "ru") {
-    return `/Akfa-Medline-Social/${currentLan.value}/jobs/${id}/`;
+    return `/Akfa-Medline-Social-Vue/${currentLan.value}/jobs/${id}/`;
   }
-  return `/Akfa-Medline-Social/jobs/${id}`;
+  return `/Akfa-Medline-Social-Vue/jobs/${id}`;
 };
 </script>
 
