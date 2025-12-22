@@ -180,7 +180,7 @@ const addLanguage = () => {
 
 const removeLanguage = () => {
   if (formData.languages.length > 1) {
-    formData.languages.slice(0, -1);
+    formData.languages.pop()
   }
 };
 
@@ -215,6 +215,7 @@ const onFormSubmit = () => {
     const firstErrorField = Object.keys(validationErrors)[0];
     if (firstErrorField) {
       const firstErrorEl = document.getElementById(firstErrorField);
+      console.log(firstErrorField)
       if (firstErrorEl) {
         firstErrorEl.scrollIntoView({ behavior: "smooth", block: "center" });
         firstErrorEl.focus();
@@ -282,14 +283,14 @@ const currentEmploymentOptions: string[] = ["Employed – Full-time", "Employed 
 
 <template>
      <div
-      class="h-screen w-screen top-[0] fixed flex justify-center z-10000 bg-[rgba(0,0,0,0.45)] backdrop-blur-[6px]  overflow-y-auto p-[60px] [&_input,select]:transition-[border,box-shadow]  [&_input,select]:duration-200  [&_input,select]:ease-linear [&_input,select]:focus:border-[#0057ff] [&_input,select]:focus:outline-0  [&_input,select]:focus:shadow-blue max-sm-md:bg-white max-sm-md:p-[0]""
+      class="h-screen w-screen top-[0] fixed flex justify-center z-10000 bg-[rgba(0,0,0,0.45)] backdrop-blur-[6px]  overflow-y-auto p-[60px] [&_input,select]:transition-[border,box-shadow]  [&_input,select]:duration-200  [&_input,select]:ease-linear [&_input,select]:focus:border-[#0057ff] [&_input,select]:focus:outline-0  [&_input,select]:focus:shadow-blue max-sm-md:bg-white max-sm-md:p-[0]"
     :class="{'hidden': !isOpen, 'items-center': phase == 2}"
     @click="handleClose"
     >
       <div
         class="flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] p-[40px] gap-[36px] text-black h-min shadow-middle max-sm-md:h-min max-sm-md:m-[0] max-sm-md:p-[40px] max-sm-md:pl-[20px] max-sm-md:pr-[20px] max-sm-md:shadow-none max-sm-md:bg-white"
         :class="{'items-center mt-[0] max-sm:w-full max-sm:h-screen justify-center gap-[64px]': phase === 2}"
-        @click={StopPropogate}
+        @click="StopPropogate"
       >
         <div class="flex w-full gap-[48px] items-start justify-end">
             <div class=" w-full" v-if="phase === 1">
@@ -333,19 +334,19 @@ const currentEmploymentOptions: string[] = ["Employed – Full-time", "Employed 
                   label="Full Name"
                   placeholder="Your full name"
                   required
-                  value={formData.fullName}
+                  :value="formData.fullName"
                   :onChange="handleInputChange('fullName')"
-                  errorMessage={errors.fullName}
-                  id="full_name"
+                  :errorMessage="errors.fullName"
+                  id="fullName"
                 />
                 <Input
                   label="Email address"
                   placeholder="Your email address"
                   inputType="email"
                   required
-                  value={formData.email}
+                  :value="formData.email"
                   :onChange="handleInputChange('email')"
-                  errorMessage={errors.email}
+                  :errorMessage="errors.email"
                   id="email"
                 />
               </div>
@@ -367,7 +368,7 @@ const currentEmploymentOptions: string[] = ["Employed – Full-time", "Employed 
                   required
                   :value="formData.citizenship"
                   :onChange="handleInputChange('citizenship')"
-                  :errorMessage="errors.fullName"
+                  :errorMessage="errors.citizenship"
                   id="citizenship"
                 />
               </div>
@@ -405,7 +406,8 @@ const currentEmploymentOptions: string[] = ["Employed – Full-time", "Employed 
                   :inputOptions="educationOptions"
                   :value="formData.educationLevel"
                   :onChange="handleInputChange('educationLevel')"
-                  errorMessage={errors.educationLevel}
+                  :errorMessage="errors.educationLevel"
+                  id="educationLevel"
                 />
               </div>
 
@@ -422,7 +424,7 @@ const currentEmploymentOptions: string[] = ["Employed – Full-time", "Employed 
                     :inputOptions="languageOptions"
                     :value="lang.level"
                     @on-change="(e) =>handleLanguageChange(i, 'level', e.target.value)"
-                    doubleInputValue={lang.name}
+                    :doubleInputValue="lang.name"
                     @double-input-on-change="(inputString) =>handleLanguageChange(i, 'name', inputString)"                    
                   />
 

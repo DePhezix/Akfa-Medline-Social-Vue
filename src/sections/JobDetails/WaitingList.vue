@@ -59,5 +59,4 @@ watch(
         fontSize='sm'
       />
     </div>
-  );
 </template>

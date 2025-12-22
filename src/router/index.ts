@@ -21,7 +21,6 @@ const router = createRouter({
           path: ":language?/jobs/:jobid",
           name: "job-details",
           component: JobDetails,
-          props: true, 
         },
       ],
     },

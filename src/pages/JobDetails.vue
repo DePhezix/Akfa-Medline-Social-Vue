@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { fetchJobVacancy } from "../ApiCalls/fetchJobVacany";
 
 import Hero from "../sections/JobDetails/Hero.vue";
@@ -36,11 +36,19 @@ const jobData: JobVacancyType = reactive({
 
 const isLoading = ref(false);
 const isWaitingListOpen = ref<boolean>(false);
-const currentLan = ref<string | string[]>("ru");
+const currentLan = ref<string | string[]>(route.params.language || "ru");
 
 const setIsWaitingListOpen = (state: boolean) => {
   isWaitingListOpen.value = state;
 };
+
+const fetchAndAssignVacany = async () => {
+  const data = await fetchJobVacancy(Number(route.params.jobid));
+
+  Object.assign(jobData, data);
+};
+
+onMounted(fetchAndAssignVacany);
 
 watch(
   () => route.params.language,
@@ -48,15 +56,7 @@ watch(
     currentLan.value = newLanguage || "ru";
   }
 );
-
-watch(
-  () => route.params.jobid,
-  async (newId) => {
-    const data = await fetchJobVacancy(Number(newId));
-
-    Object.assign(jobData, data);
-  }
-);
+watch(() => route.params.jobid, fetchAndAssignVacany);
 </script>
 
 <template>
@@ -79,7 +79,6 @@ watch(
       />
       <div
         class="flex gap-[24px] w-[1280px] justify-between max-2xl:w-full max-md:flex-col max-2xl:pr-[30px] max-2xl:pl-[30px]"
-        ref="{contentContainer}"
       >
         <div class="flex flex-col max-2xl:w-full">
           <Overview
@@ -92,7 +91,7 @@ watch(
             :text="jobData.requirements"
             v-if="jobData?.requirements"
           />
-          <JobDetail :text="jobData.conditions" v-if="jobData?.conditions" />}
+          <JobDetail :text="jobData.conditions" v-if="jobData?.conditions" />
         </div>
         <div class="w-[200px] max-2xl:w-[230px] max-md:w-full">
           <WaitingList

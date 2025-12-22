@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CSSProperties } from "vue";
 import { useTemplateRef } from "vue";
+import { useIMask } from "vue-imask";
 
 type inputTypeKey =
   | "text"
@@ -33,9 +34,9 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'doubleInputOnChange', value: string): void;
-  (e: 'onChange', value: any): void
-}>()
+  (e: "doubleInputOnChange", value: string): void;
+  (e: "onChange", value: any): void;
+}>();
 
 const dateRef = useTemplateRef("date-input");
 
@@ -48,7 +49,7 @@ const handleDateChange = (e: InputEvent) => {
     val = val.slice(0, 2) + "/" + val.slice(2, 4) + "/" + val.slice(4, 8);
   }
   target.value = val;
-  emit('onChange', e)
+  emit("onChange", e);
 };
 
 const handleHiddenDateChange = (e: InputEvent) => {
@@ -59,14 +60,14 @@ const handleHiddenDateChange = (e: InputEvent) => {
   const [year, month, day] = isoDate.split("-");
   const formatted = `${day}/${month}/${year}`;
   target.value = formatted;
-  emit('onChange', {
+  emit("onChange", {
     target: { value: formatted },
-  })
+  });
 };
 
 const handleSelectChange = (e: Event & { target: HTMLSelectElement }) => {
   if (!(e.target instanceof HTMLSelectElement)) return;
-  emit('onChange', e)
+  emit("onChange", e);
 };
 
 const handleFileChange = (e: InputEvent) => {
@@ -77,8 +78,8 @@ const handleFileChange = (e: InputEvent) => {
   const maxSize = props.fileSize || 20 * 1024 * 1024;
   if (file.size > maxSize) {
     target.value = "";
-    emit('onChange', e)
-     return;
+    emit("onChange", e);
+    return;
   }
 
   const allowedTypes = (props.fileType || ".pdf,.doc,.docx")
@@ -89,11 +90,11 @@ const handleFileChange = (e: InputEvent) => {
 
   if (!fileExt || !allowedTypes.includes(fileExt)) {
     target.value = "";
-    emit('onChange', e)
+    emit("onChange", e);
     return;
   }
 
-  emit('onChange', e)
+  emit("onChange", e);
 };
 
 const handleTelChange = (val: string) => {
@@ -101,9 +102,19 @@ const handleTelChange = (val: string) => {
     target: { value: val },
   } as Event & { target: HTMLInputElement };
 
-  emit('onChange', event)
+  emit("onChange", event);
 };
 
+const { el, masked } = useIMask(
+  {
+    mask: "+{998} (00) 000-00-00",
+  },
+  {
+    onAccept: () => {
+      handleTelChange(masked.value);
+    },
+  }
+);
 </script>
 
 <template>
@@ -122,7 +133,12 @@ const handleTelChange = (val: string) => {
         :placeholder="doubleInputPlaceholder"
         :disabled="doubleInputDisabled || inputDisabled"
         :value="doubleInputValue"
-        @input="$emit('doubleInputOnChange', ($event.target as HTMLInputElement).value)"
+        @input="
+          $emit(
+            'doubleInputOnChange',
+            ($event.target as HTMLInputElement).value
+          )
+        "
         v-if="doubleInputPlaceholder"
       />
 
@@ -134,12 +150,13 @@ const handleTelChange = (val: string) => {
           type="text"
           inputMode="numeric"
           class="w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0"
+          :class="{ 'border-red2 outline-0': errorMessage }"
           :required="required"
           :placeholder="placeholder || 'ДД/ММ/ГГГГ'"
           :disabled="inputDisabled"
           :value="value"
           @input="handleDateChange"
-          maxLength="{10}"
+          :maxLength="10"
         />
         <img
           src="/svgs/calender.svg"
@@ -154,15 +171,14 @@ const handleTelChange = (val: string) => {
           @input="handleHiddenDateChange"
         />
       </div>
-      <IMaskInput
-        mask="+{998} (00) 000-00-00"
+
+      <input
+        v-else-if="inputType === 'tel'"
+        ref="el"
         type="tel"
-        value="{value}"
-        :onAccept="handleTelChange"
-        placeholder="{placeholder}"
+        :placeholder="placeholder"
         class="w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0"
         :class="{ 'border-red2 outline-0': errorMessage }"
-        v-else-if="inputType === 'tel'"
       />
       <select
         class="appearance-none w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px]] flex gap-[10px] text-[16px] overflow-x-auto pr-[40px] text-[#737474] focus:outline-0 focus:text-black cursor-pointer"
@@ -203,11 +219,12 @@ const handleTelChange = (val: string) => {
           <div class="font-[600] pointer-events-none">
             {{ value || placeholder || "Upload file" }}
           </div>
-          {fileNote && (
-          <div class="text-[14px] text-[#737474] pointer-events-none">
+          <div
+            class="text-[14px] text-[#737474] pointer-events-none"
+            v-if="fileNote"
+          >
             {{ fileNote }}
           </div>
-          )}
         </div>
       </label>
       <input
@@ -230,6 +247,8 @@ const handleTelChange = (val: string) => {
         v-if="imgSrc"
       />
     </div>
-    <div class="text-red2 text-[0.85rem] mt-[-4px]" v-if="errorMessage">{{errorMessage}}</div>
+    <div class="text-red2 text-[0.85rem] mt-[-4px]" v-if="errorMessage">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>

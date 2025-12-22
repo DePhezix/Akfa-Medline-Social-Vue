@@ -25,11 +25,13 @@ const toggleMenu = () => {
 const handleLanguage = (e: Event) => {
   const target = e.target as HTMLSelectElement;
   const lan = target.value;
-  if (lan == "ru") {
-    router.push('/Akfa-Medline-Social-Vue/');
-  } else {
-    router.push("/Akfa-Medline-Social-Vue/" + lan);
-  }
+  const mergedParams = { ...route.params, language: lan === "ru" ? "" : lan };
+
+  router.push({
+    name: route.name,
+    params: mergedParams,
+  });
+
   toggleMenu();
 };
 
@@ -50,11 +52,10 @@ watch(
     class="p-[16px] pl-[80px] pr-[50px] w-full flex justify-between items-center bg-white z-50 max-2xl:p-[16px] max-2xl:pt-[32px] max-md:fixed"
   >
     <RouterLink
-      :to="
-        currentLan === 'ru'
-          ? `/Akfa-Medline-Social-Vue/`
-          : `/Akfa-Medline-Social-Vue/${currentLan}`
-      "
+      :to="{
+        name: 'landing',
+        params: currentLan === 'ru' ? {} : { language: currentLan },
+      }"
       class="h-[50.15px] w-[100px] max-sm:h-[32px]"
     >
       <img
