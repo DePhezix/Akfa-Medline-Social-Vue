@@ -115,6 +115,8 @@ const { el, masked } = useIMask(
     },
   }
 );
+
+el; //to fix 'unused variable' causing production build failure
 </script>
 
 <template>
