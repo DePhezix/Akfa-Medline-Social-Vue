@@ -9,7 +9,7 @@ import { useRoute, useRouter, RouterLink } from "vue-router";
 import Button from "../../components/Global/Button.vue";
 import { ref, watch } from "vue";
 
-const store = usePopUpStore()
+const store = usePopUpStore();
 
 const router = useRouter();
 
@@ -22,7 +22,7 @@ const isHamburgerOpen = ref<boolean>(false);
 
 const toggleMenu = () => {
   isHamburgerOpen.value = !isHamburgerOpen.value;
-  store.setIsPopupOpen(!store.isPopUpOpen)
+  store.setIsPopupOpen(!store.isPopUpOpen);
 };
 
 const handleLanguage = (e: Event) => {
@@ -35,7 +35,9 @@ const handleLanguage = (e: Event) => {
     params: mergedParams,
   });
 
-  toggleMenu();
+  if (isHamburgerOpen.value) {
+    toggleMenu();
+  }
 };
 
 watch(
@@ -132,7 +134,7 @@ watch(
             class="appearance-none"
             @click="toggleMenu"
           >
-            {{currentLan === "ru" ? "Преимущества" : "Benefits"}}
+            {{ currentLan === "ru" ? "Преимущества" : "Benefits" }}
           </RouterLink>
           <RouterLink
             :to="{
@@ -143,7 +145,7 @@ watch(
             class="appearance-none"
             @click="toggleMenu"
           >
-            {{currentLan === "ru" ? "Вакансии" : "Vacancies"}}
+            {{ currentLan === "ru" ? "Вакансии" : "Vacancies" }}
           </RouterLink>
           <RouterLink
             smooth
