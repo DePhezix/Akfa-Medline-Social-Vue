@@ -16,11 +16,11 @@ interface ApplicantArguments {
   resume: File;
 }
 
+
 export async function postApplicant(
   formData: ApplicantArguments
 ): Promise<string> {
   try {
-    // setIsLoading(true);
     const formDataToSend: any = new FormData();
 
     formDataToSend.append("vacancyId", Number(formData.jobid));
@@ -50,7 +50,5 @@ export async function postApplicant(
     const msg =
       err.response?.data?.message || "Failed to submit form. Please try again.";
     return msg;
-  } finally {
-    // setIsLoading(false);
   }
 }

@@ -3,11 +3,13 @@ import Logo from "/svgs/header_logo.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import DownArrow from "/svgs/downArrow.svg";
 
+import { usePopUpStore } from "../../stores/PopUpStore";
+
 import { useRoute, useRouter, RouterLink } from "vue-router";
 import Button from "../../components/Global/Button.vue";
 import { ref, watch } from "vue";
 
-import type { Ref } from "vue";
+const store = usePopUpStore()
 
 const router = useRouter();
 
@@ -16,10 +18,11 @@ var currentLan = ref<string | string[]>(route.params.language || "ru");
 
 var basePath = `/Akfa-Medline-Social-Vue/`;
 
-const isHamburgerOpen: Ref<boolean> = ref(false);
+const isHamburgerOpen = ref<boolean>(false);
 
 const toggleMenu = () => {
   isHamburgerOpen.value = !isHamburgerOpen.value;
+  store.setIsPopupOpen(!store.isPopUpOpen)
 };
 
 const handleLanguage = (e: Event) => {

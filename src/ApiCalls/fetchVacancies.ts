@@ -11,6 +11,7 @@ interface VacancyType {
   conditions: string;
 }
 
+
 export async function fetchVacancies(): Promise<VacancyType[]> {
   try {
     const res = await axios.get<VacancyType[]>(

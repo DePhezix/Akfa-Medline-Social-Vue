@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { fetchVacancies } from "../../ApiCalls/fetchVacancies";
+
+import { useVacancyDataStore } from "../../stores/VacancyDataStore";
+import { usePopUpStore } from "../../stores/PopUpStore";
+
 import CloseImg from "/svgs/x.svg";
 import SearchImg from "/svgs/search-icon.svg";
 
@@ -25,12 +28,15 @@ interface VacancyType {
 
 type languagesType = "en" | "ru";
 
+const store = usePopUpStore();
+const vacancyStore = useVacancyDataStore();
+
 var currentLan = ref<languagesType>("ru");
 const searchTerm = ref<string>("");
 
 const route = useRoute();
 
-const vacancies= ref<VacancyType[]>([]);
+const vacancies = ref<VacancyType[]>([]);
 const filteredVacancies = computed<VacancyType[]>(() => {
   if (searchTerm.value == "" && vacancies) {
     return vacancies.value.slice(0, 8);
@@ -56,10 +62,12 @@ watch(
 );
 
 onMounted(async () => {
-  vacancies.value = await fetchVacancies();
-})
+  await vacancyStore.fetchAndSetVacancies();
+  vacancies.value = vacancyStore.vacancies;
+});
 
 const handleClose = () => {
+  store.setIsPopupOpen(false);
   emit("updateIsSearchOpen", false);
 };
 

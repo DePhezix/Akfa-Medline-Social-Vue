@@ -1,12 +1,16 @@
 <script setup lang="ts">
+  import X from "/svgs/x.svg";
+  import Plus from "/svgs/plus.svg";
+
 import { ref, reactive } from "vue";
 import { useRoute } from "vue-router";
+
 import { postApplicant } from "../../ApiCalls/postApplicants";
-import X from "/svgs/x.svg";
 import Input from "../../components/Global/Input.vue";
 import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../components/Global/Button.vue";
-import Plus from "/svgs/plus.svg";
+import { usePopUpStore } from "../../stores/PopUpStore";
+
 import type { CSSProperties } from "vue";
 
 const props = defineProps<{
@@ -57,6 +61,8 @@ interface postApplicantArgumentsType extends formType {
   jobid: string | string[];
   resume: File;
 }
+
+const store = usePopUpStore()
 
 const route = useRoute();
 const jobid = route.params.jobid;
@@ -202,6 +208,7 @@ const resetForm = () => {
 
 const handleClose = () => {
   resetForm();
+  store.setIsPopupOpen(false)
   emit('updateIsOpen', false)
   phase.value = 1;
 };
@@ -237,6 +244,7 @@ const onFormConfirm = async () => {
   const applicantPost = await postApplicant(postApplicantArguments);
 
   if (applicantPost == "success") {
+    store.setIsPopupOpen(false)
     emit('updateIsOpen', false)
     phase.value = 1;
     resetForm();

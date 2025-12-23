@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
 import RightArrow from '/svgs/right-white-arrow.svg'
 import Button from '../../components/Global/Button.vue'
+
+import { usePopUpStore } from "../../stores/PopUpStore";
+
+const store = usePopUpStore()
 
 const props = defineProps<{
   className?: string;
@@ -25,6 +30,7 @@ watch(
 
  const handleWaitingButtonClick = () => {
     emit('updateIsWaitingListOpen', true)
+    store.setIsPopupOpen(true)
   };
 
   const handleReturnButtonClick = () => {

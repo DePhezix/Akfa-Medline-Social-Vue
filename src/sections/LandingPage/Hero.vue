@@ -2,9 +2,12 @@
 import HeroImage from "/images/landing-hero.avif";
 import SearchIcon from "/svgs/search-icon.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
+
 import Button from "../../components/Global/Button.vue";
 import HeroSearch from "./HeroSearch.vue";
-import { fetchVacancyStats } from "../../ApiCalls/fetchVacancyStats";
+
+import { useVacancyDataStore } from "../../stores/VacancyDataStore";
+import { usePopUpStore } from "../../stores/PopUpStore";
 
 import { useRoute } from "vue-router";
 import { ref, watch, onMounted } from "vue";
@@ -43,6 +46,9 @@ const text: Record<languageType, textType> = {
   },
 };
 
+const store = usePopUpStore()
+const vacancyStore = useVacancyDataStore()
+
 const route = useRoute();
 const isSearchOpen = ref<boolean>(false);
 const vacancyStats = ref<VacancyStatsType[]>([]);
@@ -53,7 +59,8 @@ var currentLan = ref<languageType>(
 
 onMounted(async () => {
   try {
-    vacancyStats.value = await fetchVacancyStats();
+    await vacancyStore.fetchAndSetVacancyStats()
+    vacancyStats.value = vacancyStore.vacancyStats;
   } catch (err) {
     console.error("Failed to fetch vacancy stats:", err);
   }
@@ -67,6 +74,7 @@ watch(
 );
 
 const handleButtonClick = () => {
+  store.setIsPopupOpen(true)
   isSearchOpen.value = true;
 };
 </script>

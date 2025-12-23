@@ -11,9 +11,9 @@ interface JobVacancyType {
   conditions: string;
 }
 
+
 export async function fetchJobVacancy(jobid: number): Promise<JobVacancyType> {
   try {
-    // setIsLoading(true);
     const startTime = Date.now();
 
     const res = await axios.get<JobVacancyType>(
@@ -37,7 +37,5 @@ export async function fetchJobVacancy(jobid: number): Promise<JobVacancyType> {
       requirements: "",
       conditions: "",
     };
-  } finally {
-    // setIsLoading(false);
   }
 }

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { ref, reactive, watch, onMounted } from "vue";
-import { fetchJobVacancy } from "../ApiCalls/fetchJobVacany";
+
+import { useVacancyDataStore } from '../stores/VacancyDataStore'
+import { useLoadingStore } from "../stores/LoadingStore";
 
 import Hero from "../sections/JobDetails/Hero.vue";
 import Overview from "../sections/JobDetails/Overview.vue";
@@ -22,6 +24,8 @@ interface JobVacancyType {
 }
 
 const route = useRoute();
+const loadingStore = useLoadingStore();
+const vacancyStore = useVacancyDataStore()
 
 const jobData: JobVacancyType = reactive({
   title: "",
@@ -34,7 +38,6 @@ const jobData: JobVacancyType = reactive({
   conditions: "",
 });
 
-const isLoading = ref(false);
 const isWaitingListOpen = ref<boolean>(false);
 const currentLan = ref<string | string[]>(route.params.language || "ru");
 
@@ -43,9 +46,9 @@ const setIsWaitingListOpen = (state: boolean) => {
 };
 
 const fetchAndAssignVacany = async () => {
-  const data = await fetchJobVacancy(Number(route.params.jobid));
+  await vacancyStore.fetchAndSetVacancy()
 
-  Object.assign(jobData, data);
+  Object.assign(jobData, vacancyStore.jobVacancy);
 };
 
 onMounted(fetchAndAssignVacany);
@@ -62,13 +65,14 @@ watch(() => route.params.jobid, fetchAndAssignVacany);
 <template>
   <div
     class="h-[300px] flex flex-col items-center justify-center text-red text-[20px] font-[600] gap-[20px] mt-[40px]"
-    v-if="isLoading"
+    v-if="loadingStore.isLoading"
   >
     <Loading />
     <p>{{ currentLan === "ru" ? "Загрузка..." : "Loading..." }}</p>
   </div>
   <section
     class="w-full flex flex-col gap-[40px] items-center bg-[#f3f4f4] pb-[50px] max-2xl:w-screen"
+    v-else
   >
     <div class="flex flex-col gap-[40px] items-center bg-[#f3f4f4] w-full">
       <Hero

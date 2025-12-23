@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import JobApplicationCard from "../../components/Landing/JobApplicationCard.vue";
 import Notice from "/svgs/notice.svg";
+
+import JobApplicationCard from "../../components/Landing/JobApplicationCard.vue";
 import Pagination from "../../components/Global/Pagination.vue";
+
+import { useVacancyDataStore } from "../../stores/VacancyDataStore";
+
 import { useRoute } from "vue-router";
 import { ref, computed, watch, onMounted } from "vue";
-import { fetchVacanciesByDivision } from "../../ApiCalls/fetchVacanciesByDivision";
 
 type languagesType = "en" | "ru";
 
@@ -304,6 +307,7 @@ const selectedKey = ref<string>(
 );
 
 const route = useRoute();
+const vacancyStore = useVacancyDataStore();
 
 const currentLan = ref<languagesType>(
   (route.params.language as languagesType) || "ru"
@@ -312,9 +316,10 @@ var jobs = ref<vacanciesType[]>([]);
 
 onMounted(async () => {
   try {
-    jobs.value = await fetchVacanciesByDivision(
+    await vacancyStore.fetchAndSetVacanciesByDivision(
       fieldKey[selectedKey.value] ?? 0
     );
+    jobs.value = vacancyStore.vacanciesByDivision;
   } catch {
     console.log("Error fetching vacancies by division");
   }
@@ -322,9 +327,10 @@ onMounted(async () => {
 
 watch(selectedKey, async () => {
   if (fieldKey[selectedKey.value]) {
-    jobs.value = await fetchVacanciesByDivision(
+    await vacancyStore.fetchAndSetVacanciesByDivision(
       fieldKey[selectedKey.value] ?? 0
     );
+    jobs.value = vacancyStore.vacanciesByDivision;
   }
 });
 
@@ -346,7 +352,7 @@ const blockHeader = computed(() =>
 watch(
   () => route.params.language,
   (newLanguage) => {
-    currentLan.value = newLanguage as languagesType || "ru"
+    currentLan.value = (newLanguage as languagesType) || "ru";
   }
 );
 
