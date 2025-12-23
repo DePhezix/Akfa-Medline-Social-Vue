@@ -19,7 +19,7 @@ var basePath = `/Akfa-Medline-Social-Vue/`;
 const isHamburgerOpen: Ref<boolean> = ref(false);
 
 const toggleMenu = () => {
-  isHamburgerOpen.value = !isHamburgerOpen;
+  isHamburgerOpen.value = !isHamburgerOpen.value;
 };
 
 const handleLanguage = (e: Event) => {
@@ -129,15 +129,18 @@ watch(
             class="appearance-none"
             @click="toggleMenu"
           >
-            {currentLan === "ru" ? "Преимущества" : "Benefits"}
+            {{currentLan === "ru" ? "Преимущества" : "Benefits"}}
           </RouterLink>
           <RouterLink
-            smooth
-            :to="`${basePath}#vacancies`"
+            :to="{
+              name: 'landing',
+              params: currentLan === 'ru' ? {} : { language: currentLan },
+              hash: '#vacancies',
+            }"
             class="appearance-none"
             @click="toggleMenu"
           >
-            {currentLan === "ru" ? "Вакансии" : "Vacancies"}
+            {{currentLan === "ru" ? "Вакансии" : "Vacancies"}}
           </RouterLink>
           <RouterLink
             smooth
@@ -153,7 +156,7 @@ watch(
           <select
             class="appearance-none flex items-center p-[12px] pl-[16px] pr-[16px] rounded-[4px] bg-[#eee] gap-[8px] w-[80px] h-[48px] leading-[21px] text-[14px] border-0 relative max-sm:text-[14px]"
             @input="handleLanguage"
-            value="{currentLan}"
+            :value="currentLan"
           >
             <option value="ru">RU</option>
             <option value="en">EN</option>
@@ -165,7 +168,14 @@ watch(
           />
         </div>
 
-        <RouterLink smooth :to="`${basePath}#vacancies`" class="no_underline">
+        <RouterLink
+          :to="{
+            name: 'landing',
+            params: currentLan === 'ru' ? {} : { language: currentLan },
+            hash: '#vacancies',
+          }"
+          class="no_underline"
+        >
           <Button
             :text="currentLan === 'ru' ? 'Подать заявку' : 'Apply now'"
             variant="black"

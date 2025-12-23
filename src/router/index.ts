@@ -4,7 +4,6 @@ import Layout from "../layouts/Layout.vue";
 import Landing from "../pages/Landing.vue";
 import JobDetails from "../pages/JobDetails.vue";
 
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -25,9 +24,23 @@ const router = createRouter({
       ],
     },
   ],
-  scrollBehavior() {
-    return { top: 0 };
-  },
+scrollBehavior(to, from, savedPosition) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      if (to.hash) {
+        resolve({
+          el: to.hash,
+          behavior: 'smooth',
+        })
+      } else if (savedPosition) {
+        resolve(savedPosition)
+      } else {
+        resolve({ top: 0 })
+      }
+      from;
+    }, 100)
+  })
+}
 });
 
 export default router;

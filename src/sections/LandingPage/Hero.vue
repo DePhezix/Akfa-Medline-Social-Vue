@@ -62,7 +62,7 @@ onMounted(async () => {
 watch(
   () => route.params.language,
   (newLanguage) => {
-    currentLan.value = newLanguage as languageType || "ru"
+    currentLan.value = (newLanguage as languageType) || "ru";
   }
 );
 
@@ -109,12 +109,11 @@ const handleButtonClick = () => {
               />
             </div>
             <RouterLink
-              smooth
-              :to="
-                currentLan === 'ru'
-                  ? '/Akfa-Medline-Social-Vue/#vacancies'
-                  : `/Akfa-Medline-Social-Vue/${currentLan}#vacancies`
-              "
+              :to="{
+                name: 'landing',
+                params: currentLan === 'ru' ? {} : { language: currentLan },
+                hash: '#vacancies',
+              }"
               class="no-underline"
             >
               <Button
@@ -144,7 +143,7 @@ const handleButtonClick = () => {
             class="flex gap-[16.5px] max-md:grid max-md:grid-cols-2 max-md:gap-[1rem]"
           >
             <div
-              v-for="(item) in vacancyStats"
+              v-for="item in vacancyStats"
               key="{index}"
               class="flex flex-col pr-[24px] gap-[8px] border-r border-solid border-[rgba(255, 255, 255, 0.4)] h-[62px] max-md:h-min"
             >

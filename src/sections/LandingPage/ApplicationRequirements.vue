@@ -40,14 +40,16 @@ const text: Record<languagesType, textType> = {
 
 const route = useRoute();
 
-const currentLan = ref<languagesType>(route.params.language as languagesType || "ru");
+const currentLan = ref<languagesType>(
+  (route.params.language as languagesType) || "ru"
+);
 
 const currentText = computed(() => text[currentLan.value]);
 
 watch(
   () => route.params.language,
   (newLanguage) => {
-    currentLan.value = newLanguage as languagesType || "ru"
+    currentLan.value = (newLanguage as languagesType) || "ru";
   }
 );
 </script>
@@ -78,7 +80,7 @@ watch(
         class="max-2xl:w-full text-[16px] leading-[22.4px] align-middle w-[469px]"
       >
         <span
-        v-for="(item, index) in currentText.workMode.split(':')"
+          v-for="(item, index) in currentText.workMode.split(':')"
           :key="index"
         >
           <span class="font-[600]" v-if="index === 0">{{ item }}:</span>
@@ -93,16 +95,15 @@ watch(
       <div
         class="max-2xl:w-full max-md:text-[18px] max-md:leading-[120%] w-[469px] font-[600] text-[20px] leading-[150%] align-middle"
       >
-        {{currentText.deadline}} <br />
-        {{currentText.date}}
+        {{ currentText.deadline }} <br />
+        {{ currentText.date }}
       </div>
       <RouterLink
-        smooth
-        :to="
-          currentLan === 'ru'
-            ? '/Akfa-Medline-Social-Vue/#vacancies'
-            : `/Akfa-Medline-Social-Vue/${currentLan}#vacancies`
-        "
+        :to="{
+          name: 'landing',
+          params: currentLan === 'ru' ? {} : { language: currentLan },
+          hash: '#vacancies',
+        }"
         class="max-md:w-full w-max no-underline"
       >
         <Button
