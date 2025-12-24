@@ -14,7 +14,7 @@ const props = defineProps<{
     <img :src="imgSrc" class="w-[50px] h-[50px]" :alt="imgAlt" />
     <div class="flex flex-col gap-[9px] max-md:gap-[10px]">
       <h3
-        class="font-[600] text-[24px] tracking-[-0.56px] flex items-center h-[29px max-md:font-[400]"
+        class="font-[600] text-[24px] tracking-[-0.56px] h-[29px] flex items-center max-md:font-[400]"
       >
         {{title}}
       </h3>

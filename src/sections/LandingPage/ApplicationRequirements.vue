@@ -61,9 +61,13 @@ watch(
   >
     <div class="max-md:w-full w-[568px]">
       <header
-        class="max-md:text-[32px] max-md:leading-[40px] font-[600] text-[36px] leading-[140%] tracking-[-0.5px] align-middle text-black"
+        class="max-md:text-[32px] font-[600] text-[36px] align-middle text-black"
       >
-        <h4 class="w-full">{{ currentText.header }}</h4>
+        <h4
+          class="max-2xl:w-full w-[63%] max-md:leading-[40px] leading-[140%] tracking-[-0.5px]"
+        >
+          {{ currentText.header }}
+        </h4>
       </header>
     </div>
 
@@ -80,16 +84,14 @@ watch(
         class="max-2xl:w-full text-[16px] leading-[22.4px] align-middle w-[469px]"
       >
         <span
-          v-for="(item, index) in currentText.workMode.split(':')"
+          v-for="(item, index) in currentText.workMode.split(/:(.*)/s)"
           :key="index"
+          :class="{ 'font-[600]': index === 0 }"
         >
-          <span class="font-[600]" v-if="index === 0">{{ item }}:</span>
-          <span v-else-if="index != currentText.workMode.split(':').length - 1">
-            {{ item }}:
-          </span>
-          <span v-else>
+          <template v-if="index === 0"> {{ item }}: </template>
+          <template v-else>
             {{ item }}
-          </span>
+          </template>
         </span>
       </div>
       <div

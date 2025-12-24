@@ -102,14 +102,14 @@ watch(
 
 <template>
     <section class="max-2xl:w-full max-md:flex-col max-md:gap-[20px] flex w-[1280px] rounded-[12px] pl-[3px] pr-[3px] gap-[42px] mb-[80px] text-black">
-      <h3 class="max-2xl:w-full max-2xl:text-[32px]  max-md:leading-[40px] max-md:font-[700] font-[600] text-[36px] leading-[140%] tracking-[-1px] align-middle w-[598px]">
+      <h3 class="max-2xl:flex-1 max-2xl:w-full max-2xl:text-[32px]  max-md:leading-[40px] max-md:font-[700] font-[600] text-[36px] leading-[140%] tracking-[-1px] align-middle w-[598px]">
         {{text[currentLan].header}}
       </h3>
 
       <div class="flex-1 max-2xl:w-full max-md:h-min flex flex-col bg-[#f3f4f4] rounded-[12px] p-[24px] gap-[10px] h-min">
         <div class="max-2xl:w-full max-2xl:text-[18px] w-586px font-[500] text-[20px] leading-[180%] tracking-[-1px]] align-middle h-[144px] overflow-hidden transition duration-300 ease-linear"
         :class="{'h-auto': showAll}" >
-            <div v-for="(dept, i) in departmentsData[currentLan]" :key="i">{{dept}}</div>
+            <template v-for="(dept, i) in departmentsData[currentLan]" :key="i">{{dept}}<br /></template>
         </div>
 
         <div class="max-2xl:flex max-2xl:items-center flex gap-[10px] cursor-pointer" @click="() => setShowAll(!showAll)">

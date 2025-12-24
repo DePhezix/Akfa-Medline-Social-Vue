@@ -81,7 +81,7 @@ const handleButtonClick = () => {
 
 <template>
   <main
-    class="min-[1600px]:h-[783px] w-full h-[650px] text-[#ffff] mt-[15.85px] pl-[15.625px] pr-[15.625px] max-2xl:overflow-x-hidden max-md:mt-[0] max-md:h-min max-md:p-[0]"
+    class="min-[1600px]:h-[783px] w-full h-[650px] text-[#ffff] mt-[15.85px] pl-[20px] pr-[20px] max-2xl:overflow-x-hidden max-md:mt-[0] max-md:h-min max-md:p-[0]"
   >
     <div
       class="min-[1600px]:h-[783px] h-[650px] relative rounded-[16px] bg-cover bg-center bg-no-repeat max-md:pt-[200px] max-md:flex max-md:flex-col max-md:bg-center max-md:h-min"

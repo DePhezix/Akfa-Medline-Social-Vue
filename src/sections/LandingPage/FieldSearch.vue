@@ -410,20 +410,20 @@ const setSelectedKey = (key: string) => {
           {{ blockHeader }}
         </header>
 
-        <div class="flex flex-col gap-[16px] text-[14px] leading-[23.8px]">
+        <div class="flex flex-col gap-[16px] text-[14px]">
           <p class="font-[600] align-middle" v-if="selected.invitation">
             {{ selected.invitation }}
           </p>
 
           <div v-if="selected.benefits?.length > 0">
-            <span v-for="(benefit, index) in selected.benefits" :key="index">{{
+            <p class='leading-[23.8px]' v-for="(benefit, index) in selected.benefits" :key="index">{{
               benefit
-            }}</span>
+            }}</p>
           </div>
 
           <section class="flex flex-col gap-[12px]" v-if="selected.values">
             <h3 class="font-[600]">{{ selected.values.header }}</h3>
-            <p v-html="selected.values.details" />
+            <p class='leading-[23.8px]' v-html="selected.values.details" />
           </section>
 
           <section
@@ -431,7 +431,7 @@ const setSelectedKey = (key: string) => {
             v-if="selected.requirements"
           >
             <h3 class="font-[600]">{{ selected.requirements.header }}</h3>
-            <p v-html="selected.requirements.details" />
+            <p class='leading-[23.8px]' v-html="selected.requirements.details" />
           </section>
 
           <section
@@ -441,7 +441,7 @@ const setSelectedKey = (key: string) => {
             <h3 class="font-[600]">
               {{ selected.workingConditions.header }}
             </h3>
-            <p v-html="selected.workingConditions.details" />
+            <p class='leading-[23.8px]' v-html="selected.workingConditions.details" />
           </section>
 
           <p class="font-[700]" v-if="selected.explanation">

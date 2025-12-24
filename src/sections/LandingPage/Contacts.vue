@@ -94,7 +94,7 @@ watch(
   >
     <div class="flex w-full flex-col gap-[42px]">
       <h2
-        class="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] text-[56px]"
+        class="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] text-[56px] leading-[67.2px]"
       >
         {{ currentLan === "ru" ? "Контакты" : "Contacts" }}
       </h2>

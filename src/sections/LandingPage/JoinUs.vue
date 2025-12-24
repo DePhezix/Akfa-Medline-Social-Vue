@@ -140,6 +140,7 @@ const additionalButtonStyle: CSSProperties = {
             :imgSrc="RightArrow"
             imgAlt="right arrow"
             :additionalStyle="additionalButtonStyle"
+            className="py-[12px]! gap-[12px]"
           />
         </RouterLink>
       </div>

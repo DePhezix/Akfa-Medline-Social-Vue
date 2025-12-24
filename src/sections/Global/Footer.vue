@@ -108,7 +108,7 @@ const address = computed(() =>
         class="w-[1296px] pt-[32px] border-t border-solid border-[rgba(255,255,255,0.12)] max-2xl:w-full"
       >
         <p
-          class="w-[426px] h-[28px] font-[400] text-[16px] align-middle text-[#6b6b6b] mr-auto ml-auto max-md:w-full max-md:text-center"
+          class="max-md:text-[12px] w-[426px] h-[28px] font-[400] text-[16px] align-middle text-[#6b6b6b] mr-auto ml-auto max-md:w-full max-md:text-center"
         >
           Copyright 2024 Social Akfa Medline. All rights reserved.
         </p>

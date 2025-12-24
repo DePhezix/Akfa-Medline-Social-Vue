@@ -160,7 +160,7 @@ watch(
         <h2 class="max-2xl:w-full max-2xl:font-[700] max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:h-min w-[628px] h-[44px] font-[700] text-[36px] tracking-[-1px] text-center align-middle ">
           {{text[currentLan].header}}
         </h2>
-        <p class="max-2xl:text-[16px] max-2xl:leading-[24px] max-2xl:w-full max-2xl:h-min w-[628px] h-[90px] text-[20px] leading-[150%] tracking-[-1px] text-center align-middle">
+        <p class="text-[#666666] max-2xl:text-[16px] max-2xl:leading-[24px] max-2xl:w-full max-2xl:h-min w-[628px] h-[90px] text-[20px] leading-[150%] tracking-[-1px] text-center align-middle">
           {{text[currentLan].subtitle}}
         </p>
       </header>
