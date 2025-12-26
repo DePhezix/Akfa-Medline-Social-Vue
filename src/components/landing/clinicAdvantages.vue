@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ClinicAdvantage from "../../components/landing/clinicalAdvantage.vue";
-import CAI1 from "/images/ClinicalAdvantageImage1.avif";
-import CAI2 from "/images/ClinicalAdvantageImage2.avif";
-import CAI3 from "/images/ClinicalAdvantageImage3.avif";
-import CAI4 from "/images/ClinicalAdvantageImage4.avif";
-import CAI5 from "/images/ClinicalAdvantageImage5.avif";
+import CAI1 from "/images/clinicalAdvantageImage1.avif";
+import CAI2 from "/images/clinicalAdvantageImage2.avif";
+import CAI3 from "/images/clinicalAdvantageImage3.avif";
+import CAI4 from "/images/clinicalAdvantageImage4.avif";
+import CAI5 from "/images/clinicalAdvantageImage5.avif";
 
 import { ref, computed, watch } from "vue";
 import  {useRoute} from 'vue-router'
