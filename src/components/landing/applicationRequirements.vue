@@ -103,7 +103,7 @@ watch(
       <RouterLink
         :to="{
           name: 'landing',
-          params: currentLan === 'ru' ? {} : { language: currentLan },
+          params: { language: currentLan },
           hash: '#vacancies',
         }"
         class="max-md:w-full w-max no-underline"

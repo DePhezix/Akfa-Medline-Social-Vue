@@ -78,13 +78,6 @@ const stopPropagation = (e: MouseEvent) => e.stopPropagation();
 const clearSearch = () => {
   searchTerm.value = "";
 };
-
-const getVacancyLink = (id: number) => {
-  if (currentLan.value && currentLan.value !== "ru") {
-    return `/Akfa-Medline-Social-Vue/${currentLan.value}/jobs/${id}/`;
-  }
-  return `/Akfa-Medline-Social-Vue/jobs/${id}`;
-};
 </script>
 
 <template>
@@ -138,7 +131,10 @@ const getVacancyLink = (id: number) => {
         <div class="overflow-y-auto h-[70vh] max-h-[584.4px]">
           <RouterLink
             v-for="vacancy in filteredVacancies"
-            :to="getVacancyLink(vacancy.id)"
+            :to="{
+              name: 'job-details',
+              params: { language: currentLan, jobid: vacancy.id},
+            }"
             class="block p-[12px] pl-[16px] pr-[16px] border-b border-solid border-[rgba(229,231,235)] h-min no-underline hover:bg-[rgb(249,250,251)]"
             :key="vacancy.id"
             @click="handleClose"

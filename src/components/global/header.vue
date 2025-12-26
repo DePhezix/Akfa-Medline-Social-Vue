@@ -16,8 +16,6 @@ const modal = useModal();
 
 var currentLan = ref<string | string[]>(route.params.language || "ru");
 
-var basePath = `/Akfa-Medline-Social-Vue/`;
-
 const isHamburgerOpen = ref<boolean>(false);
 
 const toggleMenu = () => {
@@ -44,10 +42,6 @@ watch(
   () => route.params.language,
   (newLanguage) => {
     currentLan.value = newLanguage || "ru";
-    basePath =
-      currentLan.value === "ru"
-        ? `/Akfa-Medline-Social-Vue/`
-        : `/Akfa-Medline-Social-Vue/${currentLan.value}`;
   }
 );
 </script>
@@ -59,7 +53,7 @@ watch(
     <RouterLink
       :to="{
         name: 'landing',
-        params: currentLan === 'ru' ? {} : { language: currentLan },
+        params: { language: currentLan },
       }"
       class="h-[50.15px] w-[100px] max-sm:h-[32px]"
     >
@@ -72,10 +66,11 @@ watch(
 
     <div class="flex gap-[32px] items-center max-md:hidden">
       <RouterLink
-        smooth
-        :to="`/Akfa-Medline-Social-Vue/${
-          currentLan !== 'ru' ? currentLan : ''
-        }#contacts`"
+        :to="{
+          name: 'landing',
+          params: { language: currentLan },
+          hash: '#contacts',
+        }"
         class="appearance-none h-full font-[400] text-[16px] cursor-pointer transition duration-300 ease-linear hover:text-red"
       >
         {{ currentLan === "ru" ? "Связаться с нами" : "Contact us" }}
@@ -130,7 +125,11 @@ watch(
       <div class="flex flex-col gap-[24px]">
         <div class="flex flex-col gap-[32px]">
           <RouterLink
-            :to="`${basePath}#benefits`"
+            :to="{
+              name: 'landing',
+              params: { language: currentLan },
+              hash: '#benefits',
+            }"
             class="appearance-none"
             @click="toggleMenu"
           >
@@ -139,7 +138,7 @@ watch(
           <RouterLink
             :to="{
               name: 'landing',
-              params: currentLan === 'ru' ? {} : { language: currentLan },
+              params: { language: currentLan },
               hash: '#vacancies',
             }"
             class="appearance-none"
@@ -148,8 +147,11 @@ watch(
             {{ currentLan === "ru" ? "Вакансии" : "Vacancies" }}
           </RouterLink>
           <RouterLink
-            smooth
-            :to="`${basePath}#contacts`"
+            :to="{
+              name: 'landing',
+              params: { language: currentLan },
+              hash: '#contacts',
+            }"
             class="appearance-none"
             @click="toggleMenu"
           >
@@ -176,8 +178,8 @@ watch(
         <RouterLink
           :to="{
             name: 'landing',
-            params: currentLan === 'ru' ? {} : { language: currentLan },
-            hash: '#vacancies',
+            params: { language: currentLan },
+            hash: '#vacancies'
           }"
           class="no_underline"
         >

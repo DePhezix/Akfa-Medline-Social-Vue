@@ -8,9 +8,14 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/Akfa-Medline-Social-Vue",
+      path: "/",
       component: Layout,
       children: [
+        {
+          path: "",
+          redirect: "/ru",
+        },
+
         {
           path: ":language?",
           name: "landing",
@@ -24,23 +29,23 @@ const router = createRouter({
       ],
     },
   ],
-scrollBehavior(to, from, savedPosition) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (to.hash) {
-        resolve({
-          el: to.hash,
-          behavior: 'smooth',
-        })
-      } else if (savedPosition) {
-        resolve(savedPosition)
-      } else {
-        resolve({ top: 0 })
-      }
-      from;
-    }, 100)
-  })
-}
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (to.hash) {
+          resolve({
+            el: to.hash,
+            behavior: "smooth",
+          });
+        } else if (savedPosition) {
+          resolve(savedPosition);
+        } else {
+          resolve({ top: 0 });
+        }
+        from;
+      }, 100);
+    });
+  },
 });
 
 export default router;

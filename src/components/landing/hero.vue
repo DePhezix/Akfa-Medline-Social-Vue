@@ -38,7 +38,6 @@ const text: Record<languageType, textType> = {
   },
   en: {
     heading: "We are recruiting a team where every professional is important",
-
     searchPlaceholder: "Search by vacancy",
     buttonText: "Submit an Application",
     subtitle: "Keep track of the number of applications",
@@ -120,7 +119,7 @@ const handleButtonClick = () => {
             <RouterLink
               :to="{
                 name: 'landing',
-                params: currentLan === 'ru' ? {} : { language: currentLan },
+                params: { language: currentLan },
                 hash: '#vacancies',
               }"
               class="no-underline"
