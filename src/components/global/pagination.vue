@@ -21,7 +21,7 @@ const slots = useSlots();
 const childrenArray = computed(() => {
   const slotContent = slots.default?.() ?? [];
   const flattened: VNode[] = [];
-  
+
   slotContent.forEach((vnode) => {
     if (vnode.type === Fragment && Array.isArray(vnode.children)) {
       flattened.push(...(vnode.children as VNode[]));
@@ -29,7 +29,7 @@ const childrenArray = computed(() => {
       flattened.push(vnode);
     }
   });
-  
+
   return flattened;
 });
 
@@ -37,13 +37,11 @@ const totalPages = computed(() =>
   Math.max(1, Math.ceil(childrenArray.value.length / props.itemsPerPage))
 );
 
-const startIndex = computed(() => 
-  (currentPage.value - 1) * props.itemsPerPage
-);
+const startIndex = computed(() => (currentPage.value - 1) * props.itemsPerPage);
 
 const currentItems = computed<VNode[]>(() =>
   childrenArray.value.slice(
-    startIndex.value, 
+    startIndex.value,
     startIndex.value + props.itemsPerPage
   )
 );
@@ -57,8 +55,8 @@ const handlePageChange = (page: number) => {
 <template>
   <div class="flex flex-col items-center gap-[24px] w-full">
     <div class="w-full" :class="className">
-      <component 
-        v-for="(item, index) in currentItems" 
+      <component
+        v-for="(item, index) in currentItems"
         :key="index"
         :is="item"
       />

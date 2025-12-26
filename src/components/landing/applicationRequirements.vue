@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from "../../components/Global/Button.vue";
+import Button from "../../components/global/button.vue";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import { useRoute, RouterLink } from "vue-router";
 import { watch, ref, computed } from "vue";
@@ -64,7 +64,7 @@ watch(
         class="max-md:text-[32px] font-[600] text-[36px] align-middle text-black"
       >
         <h4
-          class="max-2xl:w-full w-[63%] max-md:leading-[40px] leading-[140%] tracking-[-0.5px]"
+          class="max-2xl:w-full w-[70%] max-md:leading-[40px] leading-[140%] tracking-[-0.5px]"
         >
           {{ currentText.header }}
         </h4>

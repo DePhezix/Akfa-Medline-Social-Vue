@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Card from "../../components/Landing/Card.vue";
-import Button from "../../components/Global/Button.vue";
+import Card from "../../components/landing/card.vue";
+import Button from "../../components/global/button.vue";
 import Star from "/svgs/star.svg";
 import Circles from "/svgs/2_circles.svg";
 import Community from "/svgs/community.svg";

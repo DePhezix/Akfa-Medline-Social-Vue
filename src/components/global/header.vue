@@ -3,10 +3,10 @@ import Logo from "/svgs/header_logo.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import DownArrow from "/svgs/downArrow.svg";
 
-import { usePopUpStore } from "../../stores/PopUpStore";
+import { usePopUpStore } from "../../stores/popUpStore";
 
 import { useRoute, useRouter, RouterLink } from "vue-router";
-import Button from "../../components/Global/Button.vue";
+import Button from "../../components/global/button.vue";
 import { ref, watch } from "vue";
 
 const store = usePopUpStore();

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import Hero from "../sections/LandingPage/Hero.vue";
-import Invitation from "../sections/LandingPage/Invitation.vue";
-import JoinUs from "../sections/LandingPage/JoinUs.vue";
-import ClinicAdvantages from "../sections/LandingPage/ClinicAdvantages.vue";
-import ApplicationRequirements from "../sections/LandingPage/ApplicationRequirements.vue";
-import HiringDepartments from "../sections/LandingPage/HiringDepartments.vue";
-import FieldSearch from "../sections/LandingPage/FieldSearch.vue";
-import Contacts from "../sections/LandingPage/Contacts.vue";
-import Loading from "../sections/Global/Loading.vue";
+import Hero from "../components/landing/hero.vue";
+import Invitation from "../components/landing/invitation.vue";
+import JoinUs from "../components/landing/joinUs.vue";
+import ClinicAdvantages from "../components/landing/clinicAdvantages.vue";
+import ApplicationRequirements from "../components/landing/applicationRequirements.vue";
+import HiringDepartments from "../components/landing/hiringDepartments.vue";
+import FieldSearch from "../components/landing/fieldSearch.vue";
+import Contacts from "../components/landing/contacts.vue";
+import Loading from "../components/global/loading.vue";
 
-import { useLoadingStore } from "../stores/LoadingStore";
+import { useLoadingStore } from "../stores/loadingStore";
 
 import { useRoute } from "vue-router";
 import { ref, watch } from "vue";

@@ -2,15 +2,15 @@
 import { useRoute } from "vue-router";
 import { ref, reactive, watch, onMounted } from "vue";
 
-import { useVacancyDataStore } from '../stores/VacancyDataStore'
-import { useLoadingStore } from "../stores/LoadingStore";
+import { useVacancyDataStore } from "../stores/vacancyDataStore";
+import { useLoadingStore } from "../stores/loadingStore";
 
-import Hero from "../sections/JobDetails/Hero.vue";
-import Overview from "../sections/JobDetails/Overview.vue";
-import JobDetail from "../sections/JobDetails/JobDetail.vue";
-import JoinWaitingList from "../sections/JobDetails/JoinWaitingList.vue";
-import WaitingList from "../sections/JobDetails/WaitingList.vue";
-import Loading from "../sections/Global/Loading.vue";
+import Hero from "../components/jobDetails/hero.vue";
+import Overview from "../components/jobDetails/overview.vue";
+import JobDetail from "../components/jobDetails/jobDetail.vue";
+import JoinWaitingList from "../components/jobDetails/joinWaitingList.vue";
+import WaitingList from "../components/jobDetails/waitingList.vue";
+import Loading from "../components/global/loading.vue";
 
 interface JobVacancyType {
   title: string;
@@ -25,7 +25,7 @@ interface JobVacancyType {
 
 const route = useRoute();
 const loadingStore = useLoadingStore();
-const vacancyStore = useVacancyDataStore()
+const vacancyStore = useVacancyDataStore();
 
 const jobData: JobVacancyType = reactive({
   title: "",
@@ -46,7 +46,7 @@ const setIsWaitingListOpen = (state: boolean) => {
 };
 
 const fetchAndAssignVacany = async () => {
-  await vacancyStore.fetchAndSetVacancy()
+  await vacancyStore.fetchAndSetVacancy();
 
   Object.assign(jobData, vacancyStore.jobVacancy);
 };

@@ -2,8 +2,8 @@
 import { ref, watch, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
-import { useVacancyDataStore } from "../../stores/VacancyDataStore";
-import { usePopUpStore } from "../../stores/PopUpStore";
+import { useVacancyDataStore } from "../../stores/vacancyDataStore";
+import { usePopUpStore } from "../../stores/popUpStore";
 
 import CloseImg from "/svgs/x.svg";
 import SearchImg from "/svgs/search-icon.svg";

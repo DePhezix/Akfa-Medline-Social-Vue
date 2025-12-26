@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Layout from "../layouts/Layout.vue";
-import Landing from "../pages/Landing.vue";
-import JobDetails from "../pages/JobDetails.vue";
+import Layout from "../layouts/layout.vue";
+import Landing from "../pages/landing.vue";
+import JobDetails from "../pages/jobDetails.vue";
 
 const router = createRouter({
   history: createWebHistory(),

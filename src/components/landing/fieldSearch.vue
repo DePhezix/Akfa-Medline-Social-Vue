@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Notice from "/svgs/notice.svg";
 
-import JobApplicationCard from "../../components/Landing/JobApplicationCard.vue";
-import Pagination from "../../components/Global/Pagination.vue";
+import JobApplicationCard from "../../components/landing/jobApplicationCard.vue";
+import Pagination from "../../components/global/pagination.vue";
 
-import { useVacancyDataStore } from "../../stores/VacancyDataStore";
+import { useVacancyDataStore } from "../../stores/vacancyDataStore";
 
 import { useRoute } from "vue-router";
 import { ref, computed, watch, onMounted } from "vue";
@@ -416,14 +416,18 @@ const setSelectedKey = (key: string) => {
           </p>
 
           <div v-if="selected.benefits?.length > 0">
-            <p class='leading-[23.8px]' v-for="(benefit, index) in selected.benefits" :key="index">{{
-              benefit
-            }}</p>
+            <p
+              class="leading-[23.8px]"
+              v-for="(benefit, index) in selected.benefits"
+              :key="index"
+            >
+              {{ benefit }}
+            </p>
           </div>
 
           <section class="flex flex-col gap-[12px]" v-if="selected.values">
             <h3 class="font-[600]">{{ selected.values.header }}</h3>
-            <p class='leading-[23.8px]' v-html="selected.values.details" />
+            <p class="leading-[23.8px]" v-html="selected.values.details" />
           </section>
 
           <section
@@ -431,7 +435,10 @@ const setSelectedKey = (key: string) => {
             v-if="selected.requirements"
           >
             <h3 class="font-[600]">{{ selected.requirements.header }}</h3>
-            <p class='leading-[23.8px]' v-html="selected.requirements.details" />
+            <p
+              class="leading-[23.8px]"
+              v-html="selected.requirements.details"
+            />
           </section>
 
           <section
@@ -441,7 +448,10 @@ const setSelectedKey = (key: string) => {
             <h3 class="font-[600]">
               {{ selected.workingConditions.header }}
             </h3>
-            <p class='leading-[23.8px]' v-html="selected.workingConditions.details" />
+            <p
+              class="leading-[23.8px]"
+              v-html="selected.workingConditions.details"
+            />
           </section>
 
           <p class="font-[700]" v-if="selected.explanation">

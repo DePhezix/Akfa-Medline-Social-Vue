@@ -3,11 +3,11 @@ import HeroImage from "/images/landing-hero.avif";
 import SearchIcon from "/svgs/search-icon.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 
-import Button from "../../components/Global/Button.vue";
-import HeroSearch from "./HeroSearch.vue";
+import Button from "../../components/global/button.vue";
+import HeroSearch from "./heroSearch.vue";
 
-import { useVacancyDataStore } from "../../stores/VacancyDataStore";
-import { usePopUpStore } from "../../stores/PopUpStore";
+import { useVacancyDataStore } from "../../stores/vacancyDataStore";
+import { usePopUpStore } from "../../stores/popUpStore";
 
 import { useRoute } from "vue-router";
 import { ref, watch, onMounted } from "vue";
@@ -46,8 +46,8 @@ const text: Record<languageType, textType> = {
   },
 };
 
-const store = usePopUpStore()
-const vacancyStore = useVacancyDataStore()
+const store = usePopUpStore();
+const vacancyStore = useVacancyDataStore();
 
 const route = useRoute();
 const isSearchOpen = ref<boolean>(false);
@@ -59,7 +59,7 @@ var currentLan = ref<languageType>(
 
 onMounted(async () => {
   try {
-    await vacancyStore.fetchAndSetVacancyStats()
+    await vacancyStore.fetchAndSetVacancyStats();
     vacancyStats.value = vacancyStore.vacancyStats;
   } catch (err) {
     console.error("Failed to fetch vacancy stats:", err);
@@ -74,7 +74,7 @@ watch(
 );
 
 const handleButtonClick = () => {
-  store.setIsPopupOpen(true)
+  store.setIsPopupOpen(true);
   isSearchOpen.value = true;
 };
 </script>

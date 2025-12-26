@@ -5,8 +5,12 @@ export const useLoadingStore = defineStore("loading", () => {
   const isLoading = ref<boolean>(false);
   const amountLoading = ref<number>(0);
 
-  function toggleLoading() {
-    isLoading.value = !isLoading.value;
+  function toggleLoading(newLoadingState?: boolean) {
+    if (typeof newLoadingState !== 'undefined') {
+      isLoading.value = newLoadingState
+    } else {
+      isLoading.value = !isLoading.value;
+    }
   }
 
   function addLoadingCount() {

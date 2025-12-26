@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ClinicAdvantage from "../../components/Landing/ClinicalAdvantage.vue";
+import ClinicAdvantage from "../../components/landing/clinicalAdvantage.vue";
 import CAI1 from "/images/ClinicalAdvantageImage1.avif";
 import CAI2 from "/images/ClinicalAdvantageImage2.avif";
 import CAI3 from "/images/ClinicalAdvantageImage3.avif";
