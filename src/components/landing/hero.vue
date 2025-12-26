@@ -5,9 +5,9 @@ import RightArrow from "/svgs/right-white-arrow.svg";
 
 import Button from "../../components/global/button.vue";
 import HeroSearch from "./heroSearch.vue";
+import useModal from "../../composables/useModal";
 
-import { useVacancyDataStore } from "../../stores/vacancyDataStore";
-import { usePopUpStore } from "../../stores/popUpStore";
+import { useVacancyDataStore } from "../../stores/vacancy";
 
 import { useRoute } from "vue-router";
 import { ref, watch, onMounted } from "vue";
@@ -46,8 +46,9 @@ const text: Record<languageType, textType> = {
   },
 };
 
-const store = usePopUpStore();
 const vacancyStore = useVacancyDataStore();
+
+const modal = useModal();
 
 const route = useRoute();
 const isSearchOpen = ref<boolean>(false);
@@ -74,7 +75,7 @@ watch(
 );
 
 const handleButtonClick = () => {
-  store.setIsPopupOpen(true);
+  modal.updateShowModel(true);
   isSearchOpen.value = true;
 };
 </script>

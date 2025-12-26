@@ -2,8 +2,9 @@
 import { ref, watch, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
-import { useVacancyDataStore } from "../../stores/vacancyDataStore";
-import { usePopUpStore } from "../../stores/popUpStore";
+import { useVacancyDataStore } from "../../stores/vacancy";
+
+import useModal from "../../composables/useModal";
 
 import CloseImg from "/svgs/x.svg";
 import SearchImg from "/svgs/search-icon.svg";
@@ -28,8 +29,9 @@ interface VacancyType {
 
 type languagesType = "en" | "ru";
 
-const store = usePopUpStore();
 const vacancyStore = useVacancyDataStore();
+
+const modal = useModal();
 
 var currentLan = ref<languagesType>("ru");
 const searchTerm = ref<string>("");
@@ -67,7 +69,7 @@ onMounted(async () => {
 });
 
 const handleClose = () => {
-  store.setIsPopupOpen(false);
+  modal.updateShowModel(false);
   emit("updateIsSearchOpen", false);
 };
 

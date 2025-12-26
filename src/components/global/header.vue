@@ -3,17 +3,17 @@ import Logo from "/svgs/header_logo.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import DownArrow from "/svgs/downArrow.svg";
 
-import { usePopUpStore } from "../../stores/popUpStore";
-
 import { useRoute, useRouter, RouterLink } from "vue-router";
-import Button from "../../components/global/button.vue";
 import { ref, watch } from "vue";
 
-const store = usePopUpStore();
+import Button from "../../components/global/button.vue";
+import useModal from "../../composables/useModal";
 
 const router = useRouter();
-
 const route = useRoute();
+
+const modal = useModal();
+
 var currentLan = ref<string | string[]>(route.params.language || "ru");
 
 var basePath = `/Akfa-Medline-Social-Vue/`;
@@ -22,7 +22,7 @@ const isHamburgerOpen = ref<boolean>(false);
 
 const toggleMenu = () => {
   isHamburgerOpen.value = !isHamburgerOpen.value;
-  store.setIsPopupOpen(!store.isPopUpOpen);
+  modal.updateShowModel(!modal.isShowModal);
 };
 
 const handleLanguage = (e: Event) => {

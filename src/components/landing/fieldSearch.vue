@@ -4,7 +4,7 @@ import Notice from "/svgs/notice.svg";
 import JobApplicationCard from "../../components/landing/jobApplicationCard.vue";
 import Pagination from "../../components/global/pagination.vue";
 
-import { useVacancyDataStore } from "../../stores/vacancyDataStore";
+import { useVacancyDataStore } from "../../stores/vacancy";
 
 import { useRoute } from "vue-router";
 import { ref, computed, watch, onMounted } from "vue";

@@ -3,7 +3,7 @@ import { ref, reactive } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 
-import { useLoadingStore } from "./loadingStore";
+import { useLoadingStore } from "./loading";
 
 interface VacancyType {
   title: string;

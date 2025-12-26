@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { watch } from "vue";
+import useModal from "./composables/useModal";
 
-import { usePopUpStore } from "./stores/popUpStore";
-
-const store = usePopUpStore();
+const modal = useModal();
 watch(
-  () => store.isPopUpOpen,
+  () => modal.isShowModal,
   (newValue) => {
     document.body.style.overflow = newValue ? "hidden" : "auto";
   }

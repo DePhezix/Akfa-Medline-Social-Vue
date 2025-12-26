@@ -4,10 +4,9 @@ import { useRoute, useRouter } from "vue-router";
 
 import RightArrow from "/svgs/right-white-arrow.svg";
 import Button from "../../components/global/button.vue";
+import useModal from "../../composables/useModal";
 
-import { usePopUpStore } from "../../stores/popUpStore";
-
-const store = usePopUpStore();
+const modal = useModal();
 
 const props = defineProps<{
   className?: string;
@@ -30,7 +29,7 @@ watch(
 
 const handleWaitingButtonClick = () => {
   emit("updateIsWaitingListOpen", true);
-  store.setIsPopupOpen(true);
+  modal.updateShowModel(true);
 };
 
 const handleReturnButtonClick = () => {

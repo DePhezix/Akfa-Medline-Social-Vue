@@ -8,8 +8,8 @@ import { useRoute } from "vue-router";
 import Input from "../../components/global/input.vue";
 import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../components/global/button.vue";
+import useModal from "../../composables/useModal";
 
-import { usePopUpStore } from "../../stores/popUpStore";
 import { useWaitlistFormStore } from "../../stores/waitlistForm";
 
 import type { CSSProperties } from "vue";
@@ -22,9 +22,9 @@ const emit = defineEmits<{
   (e: "updateIsOpen", value: boolean): void;
 }>();
 
-const popUpStore = usePopUpStore();
 const waitlistFormStore = useWaitlistFormStore();
 
+const modal = useModal();
 const route = useRoute();
 const jobid = route.params.jobid;
 
@@ -41,7 +41,7 @@ const handleInputChange = (field: keyof typeof formData) => (e: Event) => {
 
 const handleClose = () => {
   waitlistFormStore.resetForm();
-  popUpStore.setIsPopupOpen(false);
+  modal.updateShowModel(false);
   emit("updateIsOpen", false);
   phase.value = 1;
 };

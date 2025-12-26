@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
 import axios from "axios";
 
-import { useLoadingStore } from "./loadingStore";
+import { useLoadingStore } from "./loading";
 
 type languagesType = { name: string; level: string }[];
 type fileType = { file: File | undefined | null; name: string };

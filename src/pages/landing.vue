@@ -9,7 +9,7 @@ import FieldSearch from "../components/landing/fieldSearch.vue";
 import Contacts from "../components/landing/contacts.vue";
 import Loading from "../components/global/loading.vue";
 
-import { useLoadingStore } from "../stores/loadingStore";
+import { useLoadingStore } from "../stores/loading";
 
 import { useRoute } from "vue-router";
 import { ref, watch } from "vue";

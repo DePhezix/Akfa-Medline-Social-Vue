@@ -2,8 +2,8 @@
 import { useRoute } from "vue-router";
 import { ref, reactive, watch, onMounted } from "vue";
 
-import { useVacancyDataStore } from "../stores/vacancyDataStore";
-import { useLoadingStore } from "../stores/loadingStore";
+import { useVacancyDataStore } from "../stores/vacancy";
+import { useLoadingStore } from "../stores/loading";
 
 import Hero from "../components/jobDetails/hero.vue";
 import Overview from "../components/jobDetails/overview.vue";
